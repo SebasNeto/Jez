@@ -1,0 +1,125 @@
+:root {
+    --primary-color: #ff4d6d;
+    --bg-color: #fcf4f2;
+    --text-color: #590d22;
+}
+
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* Header */
+header {
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+    color: white;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+/* Frase de dedicação */
+.dedication {
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3rem;
+    margin: 30px 20px;
+    color: #7a1f3d;
+}
+
+/* Separador */
+.divider {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Conteúdo */
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+}
+
+/* Cards */
+.moment-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 320px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.moment-card:hover {
+    transform: scale(1.02);
+}
+
+.video-wrapper video {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background: #000;
+    display: block;
+}
+
+/* Texto do momento */
+.moment-info {
+    padding: 12px;
+    text-align: center;
+    border-top: 1px solid #eee;
+}
+
+.moment-info h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.moment-info p {
+    margin-top: 6px;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: #7a1f3d;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+#counter {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.footer-text {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-top: 10px;
+    font-style: italic;
+}
