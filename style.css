@@ -50,12 +50,20 @@ h1 {
     padding: 0 20px;
 }
 
-.video-grid {
+/* .video-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 25px;
     justify-content: center;
+} */
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    justify-items: center;
 }
+
 
 /* Cards */
 .moment-card {
