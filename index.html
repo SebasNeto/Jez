@@ -13,71 +13,88 @@
 </head>
 <body>
 
-    <header>
-        <h1>Nossos Momentos</h1>
-        <p>Cada segundo ao seu lado é um presente.</p>
-    </header>
+<header>
+    <h1>Nossos Momentos</h1>
+    <p>Cada segundo ao seu lado é um presente.</p>
+</header>
 
-    <p class="dedication">
-        Para mulher mais linda do mundo.
-    </p>
+<p class="dedication">
+    Para a mulher mais linda do mundo.
+</p>
 
-    <div class="divider">❦</div>
+<div class="divider">❦</div>
 
-    <main class="container">
-        <div class="video-grid">
+<!-- Música -->
+<div class="music-container">
+    <button id="playMusic">💖 Toque para ouvir nossa música</button>
+</div>
 
-            <div class="moment-card">
-                <div class="video-wrapper">
-                    <video controls>
-                        <source src="video_1.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="moment-info">
-                    <h3>moment 1</h3>
-                    <p></p>
-                </div>
+<!-- Upload -->
+<div class="upload-container">
+    <label class="upload-label">
+        💌 Adicionar nosso momento
+        <input type="file" id="mediaInput" accept="image/*,video/*" hidden>
+    </label>
+</div>
+
+<!-- Legenda -->
+<div class="caption-container">
+    <input type="text" id="captionInput" placeholder="Escreva uma legenda especial 💕">
+</div>
+
+<main class="container">
+    <div class="video-grid">
+
+        <!-- MOMENTOS FIXOS -->
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <video controls>
+                    <source src="video_1.mp4" type="video/mp4">
+                </video>
             </div>
-
-            <div class="moment-card">
-                <div class="video-wrapper">
-                    <video controls>
-                        <source src="video_2.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="moment-info">
-                    <h3>moment 2</h3>
-                    <p></p>
-                </div>
-            </div>
-
-            <div class="moment-card">
-                <div class="video-wrapper">
-                    <video controls>
-                        <source src="video_3.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="moment-info">
-                    <h3>moment 3</h3>
-                    <p></p>
-                </div>
-            </div>
-
+            <div class="moment-info">Moment 1</div>
         </div>
-    </main>
 
-    <footer>
-        <div id="counter">Carregando momentos...</div>
-        <p class="footer-text">Com amor, para Jezz </p>
-    </footer>
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <video controls>
+                    <source src="video_2.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="moment-info">Moment 2</div>
+        </div>
 
-    <!-- Música opcional -->
-    <!--
-    <audio autoplay loop>
-        <source src="music.mp3" type="audio/mp3">
-    </audio>
-    -->
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <video controls>
+                    <source src="video_3.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="moment-info">Moment 3</div>
+        </div>
 
-    <script src="script.js"></script>
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <video controls>
+                    <source src="video_4.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="moment-info">Moment 4</div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <div id="counter">Carregando momentos...</div>
+    <p class="footer-text">Com amor, para Jezz 💖</p>
+</footer>
+
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mp3">
+</audio>
+
+<script src="script.js"></script>
 </body>
 </html>
+
