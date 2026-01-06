@@ -1,6 +1,6 @@
 :root {
     --primary-color: #ff4d6d;
-    --bg-color: #fcf4f2;
+    --bg-color: #3d578ff0;
     --text-color: #590d22;
 }
 
@@ -14,7 +14,7 @@ body {
 /* Header */
 header {
     padding: 30px 20px;
-    background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+    background: linear-gradient(135deg, #4db8ff, #9d85ff);
     color: white;
     text-align: center;
 }
