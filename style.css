@@ -13,6 +13,96 @@ body {
     font-family: 'Montserrat', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ===============================
+   MODO UNIVERSO (Canvas + efeitos)
+================================ */
+#universeCanvas{
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 600ms ease;
+}
+
+body.universe-on #universeCanvas{
+    opacity: 1;
+}
+
+body.universe-on{
+    background-color: #0b1024;
+}
+
+body.universe-on header,
+body.universe-on .carta-box,
+body.universe-on .moment-card{
+    box-shadow: 0 10px 22px rgba(0,0,0,0.22);
+}
+
+/* ===============================
+   Mensagem do Universo (ofusca fundo)
+================================ */
+.universe-message{
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998; /* abaixo do cinema (9999) */
+    pointer-events: none;
+    background: rgba(0,0,0,0.0);
+    opacity: 0;
+}
+
+.universe-message.show{
+    display: flex;
+    animation: universeFade 3000ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+
+.universe-message-box{
+    width: min(620px, 90vw);
+    padding: 18px 16px;
+    border-radius: 18px;
+    text-align: center;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.22);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.35);
+    transform: translateY(6px) scale(0.98);
+    opacity: 0;
+    animation: universePop 3000ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+
+.universe-message-title{
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+}
+
+.universe-message-text{
+    color: rgba(255,255,255,0.96);
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.05rem;
+    line-height: 1.15;
+}
+
+@keyframes universeFade{
+    0%   { opacity: 0; background: rgba(0,0,0,0.00); }
+    12%  { opacity: 1; background: rgba(0,0,0,0.62); }  /* entrada rápida */
+    68%  { opacity: 1; background: rgba(0,0,0,0.62); }  /* mantém */
+    100% { opacity: 0; background: rgba(0,0,0,0.00); }  /* saída lenta */
+}
+
+@keyframes universePop{
+    0%   { opacity: 0; transform: translateY(12px) scale(0.96); }
+    12%  { opacity: 1; transform: translateY(0px)  scale(1.00); } /* entra rápido */
+    68%  { opacity: 1; transform: translateY(0px)  scale(1.00); } /* mantém */
+    100% { opacity: 0; transform: translateY(-8px) scale(0.99); } /* sai lento */
 }
 
 /* Header */
@@ -21,11 +111,45 @@ header {
     background: linear-gradient(135deg, #4db8ff, #9d85ff);
     color: white;
     text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+body.universe-on header{
+    background: linear-gradient(135deg, rgba(20, 40, 120, 0.85), rgba(120, 60, 180, 0.85));
+    backdrop-filter: blur(6px);
 }
 
 h1 {
     font-family: 'Dancing Script', cursive;
     font-size: 2.5rem;
+}
+
+.universe-header-actions{
+    margin-top: 12px;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.universe-btn{
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.26);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.universe-btn:hover{
+    background: rgba(255,255,255,0.20);
+}
+
+.universe-status{
+    font-size: 0.95rem;
+    opacity: 0.9;
 }
 
 /* Dedicação */
@@ -34,12 +158,18 @@ h1 {
     font-family: 'Dancing Script', cursive;
     font-size: 1.3rem;
     margin: 30px 20px;
+    position: relative;
+    z-index: 1;
+    color: rgba(255,255,255,0.95);
 }
 
+/* Divider */
 .divider {
     text-align: center;
     font-size: 1.5rem;
     color: var(--primary-color);
+    position: relative;
+    z-index: 1;
 }
 
 /* ===============================
@@ -50,6 +180,8 @@ h1 {
     margin: 22px auto 10px;
     padding: 0 20px;
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .carta-auto h2{
@@ -120,6 +252,8 @@ h1 {
     margin: 14px auto 6px;
     padding: 0 20px;
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .cinema-btn{
@@ -142,6 +276,8 @@ h1 {
     display: flex;
     justify-content: center;
     margin: 20px 0;
+    position: relative;
+    z-index: 1;
 }
 
 #playMusic {
@@ -162,6 +298,8 @@ h1 {
     max-width: 900px;
     margin: auto;
     padding: 0 20px;
+    position: relative;
+    z-index: 1;
 }
 
 .video-grid {
@@ -200,6 +338,8 @@ h1 {
 footer {
     text-align: center;
     padding: 40px 20px;
+    position: relative;
+    z-index: 1;
 }
 
 #counter {

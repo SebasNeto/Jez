@@ -16,9 +16,26 @@
 </head>
 <body>
 
+<!-- Canvas do Modo Universo (fica por trás de tudo) -->
+<canvas id="universeCanvas" aria-hidden="true"></canvas>
+
+<!-- NOVO: Mensagem do Modo Universo -->
+<div class="universe-message" id="universeMessage" aria-hidden="true">
+    <div class="universe-message-box">
+        <div class="universe-message-title">🌌</div>
+        <div class="universe-message-text">Entre bilhões de pessoas, eu encontrei você</div>
+    </div>
+</div>
+
 <header>
     <h1 id="tituloSite">Nossos Momentos</h1>
     <p>Cada segundo ao seu lado é um presente.</p>
+
+    <!-- Botão do Modo Universo -->
+    <div class="universe-header-actions">
+        <button id="btnUniverse" class="universe-btn">🌌 Modo Universo</button>
+        <span class="universe-status" id="universeStatus">desligado</span>
+    </div>
 </header>
 
 <p class="dedication">
@@ -44,7 +61,7 @@
 </section>
 
 <!-- ===============================
-     NOVO: Modo Cinema
+     Modo Cinema
 ================================= -->
 <section class="cinema-section">
     <button id="btnCinema" class="cinema-btn">🎬 Modo Cinema (Replay)</button>

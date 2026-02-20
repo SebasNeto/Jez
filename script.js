@@ -78,22 +78,12 @@ const cinemaNext = document.getElementById('cinemaNext');
 const cinemaPlayPause = document.getElementById('cinemaPlayPause');
 const cinemaBar = document.getElementById('cinemaBar');
 
-const STORAGE_KEY = 'nossosMomentos'; // (se você já tinha momentos salvos antes, o cinema também inclui)
-
 let cinemaLista = [];
 let cinemaIndex = 0;
 let cinemaTimer = null;
 let cinemaRunning = false;
 
 const CINEMA_TEMPO_MS = 4500;
-
-function getMomentosSalvos() {
-    try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    } catch {
-        return [];
-    }
-}
 
 function coletarMomentosDoDOM() {
     const cards = Array.from(document.querySelectorAll('.moment-card'));
@@ -106,7 +96,6 @@ function coletarMomentosDoDOM() {
         const img = card.querySelector('img');
 
         if (video) {
-            // pega source se existir; fallback pra currentSrc
             const srcTag = video.querySelector('source');
             const src = srcTag?.getAttribute('src') || video.getAttribute('src') || video.currentSrc;
             if (src) itens.push({ tipo: 'video', src, legenda: info });
@@ -120,19 +109,7 @@ function coletarMomentosDoDOM() {
 }
 
 function montarListaCinema() {
-    const dom = coletarMomentosDoDOM();
-
-    // inclui momentos salvos no localStorage (se existirem)
-    const salvos = getMomentosSalvos().map(m => ({
-        tipo: m.tipo === 'video' ? 'video' : 'image',
-        src: m.dados,
-        legenda: m.legenda || '💖'
-    }));
-
-    // Para evitar duplicar se você já tiver cards do storage no DOM (não tem agora),
-    // a gente só concatena.
-    cinemaLista = [...dom, ...salvos].filter(x => x?.src);
-
+    cinemaLista = coletarMomentosDoDOM().filter(x => x?.src);
     if (cinemaLista.length === 0) {
         cinemaLista = [{ tipo: 'image', src: '', legenda: 'Sem momentos para exibir 💖' }];
     }
@@ -142,7 +119,6 @@ function resetProgressBar() {
     if (!cinemaBar) return;
     cinemaBar.style.transition = 'none';
     cinemaBar.style.width = '0%';
-    // força reflow
     void cinemaBar.offsetWidth;
     cinemaBar.style.transition = `width ${CINEMA_TEMPO_MS}ms linear`;
     cinemaBar.style.width = '100%';
@@ -160,9 +136,9 @@ function renderCinemaItem() {
         const v = document.createElement('video');
         v.src = item.src;
         v.autoplay = true;
-        v.muted = true;        // evita briga com a música
+        v.muted = true;
         v.playsInline = true;
-        v.loop = true;         // como a troca é por tempo, loop é ok
+        v.loop = true;
         v.className = 'cinema-video';
         cinemaMedia.appendChild(v);
     } else {
@@ -175,7 +151,6 @@ function renderCinemaItem() {
 
     cinemaCaption.textContent = item.legenda || '💖';
 
-    // animação de entrada
     requestAnimationFrame(() => {
         cinemaMedia.classList.add('fade-in');
     });
@@ -210,7 +185,7 @@ function cinemaStopLoop() {
     cinemaTimer = null;
     cinemaRunning = false;
     if (cinemaPlayPause) cinemaPlayPause.textContent = '▶';
-    // congela barra
+
     if (cinemaBar) {
         const computed = getComputedStyle(cinemaBar);
         const width = computed.width;
@@ -237,7 +212,6 @@ function abrirCinema() {
     cinemaOverlay.classList.add('show');
     cinemaOverlay.setAttribute('aria-hidden', 'false');
 
-    // tenta tocar música e esconder botão (se ainda estiver visível)
     if (audio) audio.play().catch(() => {});
     if (btnMusic) btnMusic.classList.add('hidden');
 
@@ -251,7 +225,6 @@ function fecharCinema() {
     cinemaOverlay.classList.remove('show');
     cinemaOverlay.setAttribute('aria-hidden', 'true');
 
-    // pausa qualquer vídeo que estiver no overlay
     const v = cinemaOverlay.querySelector('video');
     if (v) v.pause();
 }
@@ -267,21 +240,170 @@ if (cinemaOverlay) {
 
 if (cinemaNext) cinemaNext.addEventListener('click', () => {
     cinemaNextItem();
-    if (cinemaRunning) cinemaStartLoop(); // reseta timer
+    if (cinemaRunning) cinemaStartLoop();
 });
 
 if (cinemaPrev) cinemaPrev.addEventListener('click', () => {
     cinemaPrevItem();
-    if (cinemaRunning) cinemaStartLoop(); // reseta timer
+    if (cinemaRunning) cinemaStartLoop();
 });
 
 if (cinemaPlayPause) cinemaPlayPause.addEventListener('click', cinemaToggleLoop);
 
-// tecla ESC fecha
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && cinemaOverlay?.classList.contains('show')) {
         fecharCinema();
     }
+});
+
+/* ===============================
+   MODO UNIVERSO (Canvas de estrelas + mensagem)
+================================ */
+const btnUniverse = document.getElementById('btnUniverse');
+const universeStatus = document.getElementById('universeStatus');
+const universeCanvas = document.getElementById('universeCanvas');
+const universeMessage = document.getElementById('universeMessage');
+const ctx = universeCanvas ? universeCanvas.getContext('2d') : null;
+
+let universeOn = false;
+let stars = [];
+let rafId = null;
+
+function starCountForArea(w, h) {
+    const area = w * h;
+    const base = Math.floor(area / 9000);
+    return Math.max(120, Math.min(base, 380));
+}
+
+function resizeUniverse() {
+    if (!universeCanvas) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    universeCanvas.width = Math.floor(window.innerWidth * dpr);
+    universeCanvas.height = Math.floor(window.innerHeight * dpr);
+    universeCanvas.style.width = '100%';
+    universeCanvas.style.height = '100%';
+    if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function createStars() {
+    stars = [];
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const count = starCountForArea(w, h);
+
+    for (let i = 0; i < count; i++) {
+        stars.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: Math.random() * 1.6 + 0.2,
+            a: Math.random() * 0.55 + 0.15,
+            tw: Math.random() * 0.02 + 0.003,
+            sp: Math.random() * 0.12 + 0.02,
+            d: Math.random() < 0.5 ? -1 : 1
+        });
+    }
+}
+
+function drawUniverse() {
+    if (!ctx || !universeCanvas) return;
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    ctx.clearRect(0, 0, w, h);
+
+    const g = ctx.createRadialGradient(w * 0.65, h * 0.35, 20, w * 0.65, h * 0.35, Math.max(w, h));
+    g.addColorStop(0, 'rgba(160, 90, 255, 0.10)');
+    g.addColorStop(0.45, 'rgba(70, 160, 255, 0.06)');
+    g.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+
+    for (const s of stars) {
+        s.a += s.tw * s.d;
+        if (s.a > 0.9) s.d = -1;
+        if (s.a < 0.12) s.d = 1;
+
+        s.y += s.sp;
+        if (s.y > h + 10) {
+            s.y = -10;
+            s.x = Math.random() * w;
+        }
+
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${s.a})`;
+        ctx.fill();
+    }
+}
+
+function loopUniverse() {
+    if (!universeOn) return;
+    drawUniverse();
+    rafId = requestAnimationFrame(loopUniverse);
+}
+
+function setUniverseUI(on) {
+    document.body.classList.toggle('universe-on', on);
+    if (universeStatus) universeStatus.textContent = on ? 'ligado' : 'desligado';
+    if (btnUniverse) btnUniverse.textContent = on ? '🌌 Modo Universo (ON)' : '🌌 Modo Universo';
+}
+
+function mostrarMensagemUniverso() {
+    if (!universeMessage) return;
+
+    universeMessage.classList.remove('show');
+    universeMessage.setAttribute('aria-hidden', 'false');
+
+    // força reflow para reiniciar animação
+    void universeMessage.offsetWidth;
+
+    universeMessage.classList.add('show');
+
+    // some automaticamente após a animação
+    setTimeout(() => {
+        universeMessage.classList.remove('show');
+        universeMessage.setAttribute('aria-hidden', 'true');
+    }, 3050);
+}
+
+function startUniverse() {
+    universeOn = true;
+    setUniverseUI(true);
+
+    resizeUniverse();
+    createStars();
+
+    if (rafId) cancelAnimationFrame(rafId);
+    loopUniverse();
+
+    // mensagem rápida + ofuscamento
+    mostrarMensagemUniverso();
+
+    // tenta tocar música e esconder botão (se ainda estiver visível)
+    if (audio) audio.play().catch(() => {});
+    if (btnMusic) btnMusic.classList.add('hidden');
+}
+
+function stopUniverse() {
+    universeOn = false;
+    setUniverseUI(false);
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+    if (ctx) ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+}
+
+function toggleUniverse() {
+    if (universeOn) stopUniverse();
+    else startUniverse();
+}
+
+if (btnUniverse) btnUniverse.addEventListener('click', toggleUniverse);
+
+window.addEventListener('resize', () => {
+    if (!universeOn) return;
+    resizeUniverse();
+    createStars();
 });
 
 /* ===============================
@@ -290,5 +412,5 @@ document.addEventListener('keydown', (e) => {
 window.onload = () => {
     atualizarContador();
     iniciarCarta();
+    resizeUniverse();
 };
-
