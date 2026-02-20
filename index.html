@@ -1,20 +1,23 @@
+<!-- ===============================
+     index.html (COMPLETO)
+================================= -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nossa História</title>
 
     <!-- Fontes -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 
     <!-- Estilo -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <header>
-    <h1>Nossos Momentos</h1>
+    <h1 id="tituloSite">Nossos Momentos</h1>
     <p>Cada segundo ao seu lado é um presente.</p>
 </header>
 
@@ -24,22 +27,33 @@
 
 <div class="divider">❦</div>
 
+<!-- ===============================
+     Carta que se escreve sozinha
+================================= -->
+<section class="carta-auto">
+    <h2>💌 Uma cartinha pra você</h2>
+
+    <div class="carta-box">
+        <p id="cartaTexto" class="carta-texto"></p>
+        <span class="cursor" aria-hidden="true"></span>
+    </div>
+
+    <div class="carta-actions">
+        <button id="replayCarta" class="replay-btn">🔁 Reescrever</button>
+    </div>
+</section>
+
+<!-- ===============================
+     NOVO: Modo Cinema
+================================= -->
+<section class="cinema-section">
+    <button id="btnCinema" class="cinema-btn">🎬 Modo Cinema (Replay)</button>
+    <p class="cinema-hint">Reviva nossos momentos💖</p>
+</section>
+
 <!-- Música -->
 <div class="music-container">
     <button id="playMusic">💖 Toque para ouvir nossa música</button>
-</div>
-
-<!-- Upload -->
-<div class="upload-container">
-    <label class="upload-label">
-        💌 Adicionar nosso momento
-        <input type="file" id="mediaInput" accept="image/*,video/*" hidden>
-    </label>
-</div>
-
-<!-- Legenda -->
-<div class="caption-container">
-    <input type="text" id="captionInput" placeholder="Escreva uma legenda especial 💕">
 </div>
 
 <main class="container">
@@ -81,7 +95,6 @@
             </div>
             <div class="moment-info">Moment 4</div>
         </div>
-
 
         <div class="moment-card fixed">
             <div class="video-wrapper">
@@ -127,7 +140,7 @@
             </div>
             <div class="moment-info">Moment 9</div>
         </div>
-    
+
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -175,32 +188,143 @@
 
         <div class="moment-card fixed">
             <div class="video-wrapper">
-                <img src="image-1.jpeg" alt="">
+                <video controls>
+                    <source src="video_15.mp4" type="video/mp4">
+                </video>
             </div>
             <div class="moment-info">Moment 15</div>
         </div>
 
         <div class="moment-card fixed">
             <div class="video-wrapper">
-                <img src="image-2.jpeg" alt="">
+                <video controls>
+                    <source src="video_16.mp4" type="video/mp4">
+                </video>
             </div>
             <div class="moment-info">Moment 16</div>
         </div>
 
         <div class="moment-card fixed">
             <div class="video-wrapper">
-                <img src="image-3.jpeg" alt="">
+                <video controls>
+                    <source src="video_17.mp4" type="video/mp4">
+                </video>
             </div>
             <div class="moment-info">Moment 17</div>
         </div>
 
         <div class="moment-card fixed">
             <div class="video-wrapper">
-                <img src="image-4.jpeg" alt="">
+                <video controls>
+                    <source src="video_18.mp4" type="video/mp4">
+                </video>
             </div>
             <div class="moment-info">Moment 18</div>
         </div>
 
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <video controls>
+                    <source src="video_19.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="moment-info">Moment 19</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <video controls>
+                    <source src="video_20.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="moment-info">Moment 20</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <video controls>
+                    <source src="video_21.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="moment-info">Moment 21</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <img src="image-1.jpeg" alt="">
+            </div>
+            <div class="moment-info">Moment 22</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <img src="image-2.jpeg" alt="">
+            </div>
+            <div class="moment-info">Moment 23</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <img src="image-3.jpeg" alt="">
+            </div>
+            <div class="moment-info">Moment 24</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <img src="image-4.jpeg" alt="">
+            </div>
+            <div class="moment-info">Moment 25</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <img src="image-5.jpeg" alt="">
+            </div>
+            <div class="moment-info">Moment 26</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <img src="image-6.jpeg" alt="">
+            </div>
+            <div class="moment-info">Moment 27</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <img src="image-7.jpeg" alt="">
+            </div>
+            <div class="moment-info">Moment 28</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <img src="image-8.jpeg" alt="">
+            </div>
+            <div class="moment-info">Moment 29</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <img src="image-9.jpeg" alt="">
+            </div>
+            <div class="moment-info">Moment 30</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <img src="image-10.jpeg" alt="">
+            </div>
+            <div class="moment-info">Moment 31</div>
+        </div>
+
+        <div class="moment-card fixed">
+            <div class="video-wrapper">
+                <img src="image-11.jpeg" alt="">
+            </div>
+            <div class="moment-info">Moment 32</div>
+        </div>
 
     </div>
 </main>
@@ -214,7 +338,28 @@
     <source src="music.mp3" type="audio/mp3">
 </audio>
 
+<!-- ===============================
+     Overlay do Modo Cinema
+================================= -->
+<div class="cinema-overlay" id="cinemaOverlay" aria-hidden="true">
+    <button class="cinema-close" id="cinemaClose" aria-label="Fechar">✕</button>
+
+    <div class="cinema-stage">
+        <div class="cinema-media" id="cinemaMedia"></div>
+        <div class="cinema-caption" id="cinemaCaption">💖</div>
+
+        <div class="cinema-controls">
+            <button class="cinema-ctrl" id="cinemaPrev">⟵</button>
+            <button class="cinema-ctrl" id="cinemaPlayPause">⏸</button>
+            <button class="cinema-ctrl" id="cinemaNext">⟶</button>
+        </div>
+
+        <div class="cinema-progress">
+            <div class="cinema-bar" id="cinemaBar"></div>
+        </div>
+    </div>
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>
-

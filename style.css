@@ -1,3 +1,7 @@
+/* ===============================
+   style.css (COMPLETO)
+================================ */
+
 :root {
     --primary-color: #ff4d6d;
     --bg-color: #3d578ff0;
@@ -38,6 +42,101 @@ h1 {
     color: var(--primary-color);
 }
 
+/* ===============================
+   Carta que se escreve sozinha
+================================ */
+.carta-auto{
+    max-width: 900px;
+    margin: 22px auto 10px;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.carta-auto h2{
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    color: white;
+    margin: 10px 0 12px;
+}
+
+.carta-box{
+    background: rgba(255,255,255,0.92);
+    border-radius: 16px;
+    padding: 16px 16px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.10);
+    border: 2px solid rgba(255,77,109,0.30);
+    text-align: left;
+    position: relative;
+}
+
+.carta-texto{
+    margin: 0;
+    white-space: pre-wrap;
+    line-height: 1.55;
+    font-size: 1rem;
+    color: #590d22;
+    min-height: 110px;
+}
+
+.cursor{
+    display: inline-block;
+    width: 10px;
+    height: 18px;
+    background: rgba(255,77,109,0.85);
+    margin-left: 6px;
+    border-radius: 3px;
+    animation: blink 0.85s infinite;
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+}
+
+@keyframes blink{
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.carta-actions{
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.replay-btn{
+    background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+    border: none;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 18px;
+    cursor: pointer;
+}
+
+/* ===============================
+   Modo Cinema (botão)
+================================ */
+.cinema-section{
+    max-width: 900px;
+    margin: 14px auto 6px;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.cinema-btn{
+    background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+    border: none;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 22px;
+    cursor: pointer;
+}
+
+.cinema-hint{
+    margin: 8px 0 0;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.95rem;
+}
+
 /* Música */
 .music-container {
     display: flex;
@@ -56,31 +155,6 @@ h1 {
 
 #playMusic.hidden {
     display: none;
-}
-
-/* Upload */
-.upload-container,
-.caption-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-}
-
-.upload-label {
-    background: white;
-    border: 2px dashed #ff4d6d;
-    padding: 14px 22px;
-    border-radius: 15px;
-    cursor: pointer;
-    color: #ff4d6d;
-}
-
-.caption-container input {
-    width: 260px;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #ff4d6d;
-    text-align: center;
 }
 
 /* Conteúdo */
@@ -122,20 +196,6 @@ h1 {
     font-style: italic;
 }
 
-/* Apagar */
-.delete-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 26px;
-    height: 26px;
-    cursor: pointer;
-}
-
 /* Footer */
 footer {
     text-align: center;
@@ -145,4 +205,105 @@ footer {
 #counter {
     font-weight: bold;
     color: var(--primary-color);
+}
+
+/* ===============================
+   Overlay do Modo Cinema
+================================ */
+.cinema-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.78);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    z-index: 9999;
+}
+
+.cinema-overlay.show{
+    display: flex;
+}
+
+.cinema-close{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    border: none;
+    background: rgba(255,255,255,0.12);
+    color: white;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.cinema-stage{
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+}
+
+.cinema-media{
+    width: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.28);
+    background: rgba(255,255,255,0.08);
+    opacity: 0;
+    transform: scale(0.99);
+}
+
+.cinema-media.fade-in{
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 280ms ease, transform 280ms ease;
+}
+
+.cinema-img,
+.cinema-video{
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    display: block;
+}
+
+.cinema-caption{
+    margin-top: 12px;
+    color: white;
+    font-style: italic;
+    padding: 0 10px;
+}
+
+.cinema-controls{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.cinema-ctrl{
+    border: none;
+    background: rgba(255,255,255,0.12);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.cinema-progress{
+    margin-top: 12px;
+    width: 100%;
+    height: 8px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.cinema-bar{
+    height: 100%;
+    width: 0%;
+    background: rgba(255,77,109,0.9);
 }
