@@ -1,6 +1,3 @@
-<!-- ===============================
-     index.html (COMPLETO)
-================================= -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nossa História</title>
 
-    <!-- Fontes -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 
-    <!-- Estilo -->
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- Canvas do Modo Universo (fica por trás de tudo) -->
 <canvas id="universeCanvas" aria-hidden="true"></canvas>
 
-<!-- NOVO: Mensagem do Modo Universo -->
 <div class="universe-message" id="universeMessage" aria-hidden="true">
     <div class="universe-message-box">
         <div class="universe-message-title">🌌</div>
@@ -31,7 +24,6 @@
     <h1 id="tituloSite">Nossos Momentos</h1>
     <p>Cada segundo ao seu lado é um presente.</p>
 
-    <!-- Botão do Modo Universo -->
     <div class="universe-header-actions">
         <button id="btnUniverse" class="universe-btn">🌌 Modo Universo</button>
         <span class="universe-status" id="universeStatus">desligado</span>
@@ -44,9 +36,6 @@
 
 <div class="divider">❦</div>
 
-<!-- ===============================
-     Carta que se escreve sozinha
-================================= -->
 <section class="carta-auto">
     <h2>💌 Uma cartinha pra você</h2>
 
@@ -60,15 +49,58 @@
     </div>
 </section>
 
-<!-- ===============================
-     Modo Cinema
-================================= -->
+<div class="divider">❦</div>
+
+<section class="motivos-section">
+    <h2>✨ Por que eu te amo?</h2>
+    <p class="cinema-hint">Clique no botão abaixo para descobrir...</p>
+    <button id="btnMotivo" class="replay-btn" style="margin-top: 10px;">🔮 Me dê um motivo</button>
+    <div class="motivo-box">
+        <p id="motivoTexto" class="motivo-display"></p>
+    </div>
+</section>
+
+<div class="divider">❦</div>
+
+<section class="cupons-section">
+    <h2>🎁 Seus Cupons Especiais</h2>
+    <p class="cinema-hint">Escolha com sabedoria! Clique em um cartão para revelar seu prêmio.</p>
+    
+    <div class="cupons-grid">
+        <div class="cupom-card">
+            <div class="cupom-inner">
+                <div class="cupom-front">❓ Cupom Surpresa</div>
+                <div class="cupom-back">Vale uma massagem relaxante com ou sem surpresa💆‍♀️</div>
+            </div>
+        </div>
+        <div class="cupom-card">
+            <div class="cupom-inner">
+                <div class="cupom-front">❓ Cupom Surpresa</div>
+                <div class="cupom-back">Você pode pedir o que quiser. A resposta é sim! 🍧</div>
+            </div>
+        </div>
+        <div class="cupom-card">
+            <div class="cupom-inner">
+                <div class="cupom-front">❓ Cupom Surpresa</div>
+                <div class="cupom-back">Vale um jantar romântico por minha conta 🍷</div>
+            </div>
+        </div>
+        <div class="cupom-card">
+            <div class="cupom-inner">
+                <div class="cupom-front">❓ Cupom Surpresa</div>
+                <div class="cupom-back">Eu vou cozinhar para você 🌆</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider">❦</div>
+
 <section class="cinema-section">
     <button id="btnCinema" class="cinema-btn">🎬 Modo Cinema (Replay)</button>
     <p class="cinema-hint">Reviva nossos momentos💖</p>
 </section>
 
-<!-- Música -->
 <div class="music-container">
     <button id="playMusic">💖 Toque para ouvir nossa música</button>
 </div>
@@ -76,7 +108,6 @@
 <main class="container">
     <div class="video-grid">
 
-        <!-- MOMENTOS FIXOS -->
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -346,6 +377,10 @@
     </div>
 </main>
 
+<div style="text-align: center; margin: 50px 20px;">
+    <button id="btnDiaRuim" class="dia-ruim-btn">🌧️ Tive um dia ruim...</button>
+</div>
+
 <footer>
     <div id="counter">Carregando momentos...</div>
     <p class="footer-text">Com amor, para Jezz 💖</p>
@@ -355,9 +390,6 @@
     <source src="music.mp3" type="audio/mp3">
 </audio>
 
-<!-- ===============================
-     Overlay do Modo Cinema
-================================= -->
 <div class="cinema-overlay" id="cinemaOverlay" aria-hidden="true">
     <button class="cinema-close" id="cinemaClose" aria-label="Fechar">✕</button>
 
@@ -374,6 +406,15 @@
         <div class="cinema-progress">
             <div class="cinema-bar" id="cinemaBar"></div>
         </div>
+    </div>
+</div>
+
+<div class="dia-ruim-overlay" id="diaRuimOverlay" aria-hidden="true">
+    <button class="cinema-close" id="diaRuimClose" aria-label="Fechar">✕</button>
+    <div class="dia-ruim-content">
+        <div class="pulsing-heart">❤️</div>
+        <h2>Respira fundo, amor...</h2>
+        <p>Eu sei que hoje as coisas não foram tão fáceis, mas eu tô aqui com você. Mesmo de longe, sinta o meu abraço bem apertado. Você é incrível, forte, e amanhã é um novo dia. Eu te amo muito, Jezz. Não esqueça de quão forte você é.</p>
     </div>
 </div>
 

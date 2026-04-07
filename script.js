@@ -66,6 +66,51 @@ if (btnReplay) {
 }
 
 /* ===============================
+   Gerador de Motivos
+================================ */
+const motivosArray = [
+    "Amo o jeito que você sorri quando me vê.",
+    "Cada segundo com você parece um sonho.",
+    "Você me faz querer ser uma pessoa melhor todos os dias.",
+    "Amo como a gente se entende só com um olhar.",
+    "Sua companhia é o meu lugar favorito no mundo.",
+    "Amo a sua risada, ela ilumina o meu dia.",
+    "Você é a parte mais bonita da minha rotina.",
+    "Me perco no seu olhar toda vez que te vejo.",
+    "Amo a forma como você cuida de mim.",
+    "Cada momento ao seu lado é um presente que eu agradeço todos os dias.",
+    "Você é a melhor coisa que já me aconteceu.",
+    "Amo seu cheiro, ele é o meu perfume favorito.",
+    "Amo como você me entende mesmo quando eu não digo nada.",
+    "Você é a razão de muitos dos meus sorrisos.",
+];
+
+const btnMotivo = document.getElementById('btnMotivo');
+const motivoTexto = document.getElementById('motivoTexto');
+
+if (btnMotivo && motivoTexto) {
+    btnMotivo.addEventListener('click', () => {
+        motivoTexto.style.opacity = 0;
+        
+        setTimeout(() => {
+            const indexAleatorio = Math.floor(Math.random() * motivosArray.length);
+            motivoTexto.textContent = `"${motivosArray[indexAleatorio]}"`;
+            motivoTexto.style.opacity = 1;
+        }, 300);
+    });
+}
+
+/* ===============================
+   Cupons Românticos
+================================ */
+const cupons = document.querySelectorAll('.cupom-card');
+cupons.forEach(cupom => {
+    cupom.addEventListener('click', () => {
+        cupom.classList.toggle('flipped');
+    });
+});
+
+/* ===============================
    Modo Cinema (Replay automático)
 ================================ */
 const cinemaBtn = document.getElementById('btnCinema');
@@ -355,12 +400,10 @@ function mostrarMensagemUniverso() {
     universeMessage.classList.remove('show');
     universeMessage.setAttribute('aria-hidden', 'false');
 
-    // força reflow para reiniciar animação
     void universeMessage.offsetWidth;
 
     universeMessage.classList.add('show');
 
-    // some automaticamente após a animação
     setTimeout(() => {
         universeMessage.classList.remove('show');
         universeMessage.setAttribute('aria-hidden', 'true');
@@ -377,10 +420,8 @@ function startUniverse() {
     if (rafId) cancelAnimationFrame(rafId);
     loopUniverse();
 
-    // mensagem rápida + ofuscamento
     mostrarMensagemUniverso();
 
-    // tenta tocar música e esconder botão (se ainda estiver visível)
     if (audio) audio.play().catch(() => {});
     if (btnMusic) btnMusic.classList.add('hidden');
 }
@@ -404,6 +445,55 @@ window.addEventListener('resize', () => {
     if (!universeOn) return;
     resizeUniverse();
     createStars();
+});
+
+/* ===============================
+   NOVA FUNCIONALIDADE: Botão de Pânico (Dia Ruim)
+================================ */
+const btnDiaRuim = document.getElementById('btnDiaRuim');
+const diaRuimOverlay = document.getElementById('diaRuimOverlay');
+const diaRuimClose = document.getElementById('diaRuimClose');
+let audioFoiPausadoPeloPânico = false;
+
+function abrirDiaRuim() {
+    if (!diaRuimOverlay) return;
+    diaRuimOverlay.classList.add('show');
+    diaRuimOverlay.setAttribute('aria-hidden', 'false');
+    
+    // Pausar música principal (se estiver tocando) para trazer paz
+    if (audio && !audio.paused) {
+        audio.pause();
+        audioFoiPausadoPeloPânico = true;
+    }
+}
+
+function fecharDiaRuim() {
+    if (!diaRuimOverlay) return;
+    diaRuimOverlay.classList.remove('show');
+    diaRuimOverlay.setAttribute('aria-hidden', 'true');
+    
+    // Retornar música se foi pausada pelo botão de pânico
+    if (audioFoiPausadoPeloPânico && audio) {
+        audio.play().catch(() => {});
+        audioFoiPausadoPeloPânico = false;
+    }
+}
+
+if (btnDiaRuim) btnDiaRuim.addEventListener('click', abrirDiaRuim);
+if (diaRuimClose) diaRuimClose.addEventListener('click', fecharDiaRuim);
+
+// Fechar ao clicar fora da caixinha principal
+if (diaRuimOverlay) {
+    diaRuimOverlay.addEventListener('click', (e) => {
+        if (e.target === diaRuimOverlay) fecharDiaRuim();
+    });
+}
+
+// Fechar com a tecla ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && diaRuimOverlay?.classList.contains('show')) {
+        fecharDiaRuim();
+    }
 });
 
 /* ===============================
