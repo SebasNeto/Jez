@@ -9,7 +9,6 @@
         body {
             margin: 0;
             overflow: hidden;
-            /* Fundo base escuro e profundo */
             background-color: #0b1024;
             color: white;
             font-family: 'Montserrat', sans-serif;
@@ -18,14 +17,14 @@
             width: 100vw;
         }
 
-        /* OPÇÃO 3: Camada da Aurora Boreal (por trás de tudo) */
+        /* Camada da Aurora Boreal */
         .aurora-container {
             position: absolute;
             inset: 0;
-            z-index: 1; /* Atrás das estrelas (z-index: 2+) */
+            z-index: 1; 
             overflow: hidden;
             pointer-events: none;
-            opacity: 0.7; /* Suaviza o efeito */
+            opacity: 0.7; 
         }
 
         .aurora-layer {
@@ -36,7 +35,7 @@
                 radial-gradient(circle at 30% 20%, rgba(100, 255, 218, 0.4) 0%, rgba(100, 255, 218, 0) 40%),
                 radial-gradient(circle at 70% 60%, rgba(160, 90, 255, 0.3) 0%, rgba(160, 90, 255, 0) 50%),
                 radial-gradient(circle at 10% 80%, rgba(255, 77, 109, 0.2) 0%, rgba(255, 77, 109, 0) 40%);
-            filter: blur(80px); /* Cria o efeito de gás difuso */
+            filter: blur(80px); 
             animation: auroraMovement 40s linear infinite alternate;
         }
 
@@ -53,7 +52,7 @@
             width: 100%;
             text-align: center;
             pointer-events: none;
-            z-index: 10; /* Acima de tudo */
+            z-index: 10; 
         }
 
         h1 {
@@ -66,7 +65,7 @@
             line-height: 1.3;
         }
 
-        /* Estrelas de fundo (cenário vazio - z-index: 2) */
+        /* Estrelas de fundo */
         .bg-star {
             position: absolute;
             background: white;
@@ -82,7 +81,7 @@
             100% { opacity: 0.5; transform: scale(1.2); }
         }
 
-        /* Estrelas clicáveis (Os dias de vocês - z-index: 5) */
+        /* Estrelas clicáveis (Os dias) */
         .day-star {
             position: absolute;
             background: #fff;
@@ -97,7 +96,7 @@
         .day-star:hover {
             transform: scale(2.5);
             box-shadow: 0 0 20px 5px rgba(255, 77, 109, 0.9), 0 0 30px white;
-            z-index: 6; /* Acima ao passar o mouse */
+            z-index: 6; 
         }
 
         @keyframes pulseDay {
@@ -105,17 +104,16 @@
             100% { opacity: 1; }
         }
 
-        /* OPÇÃO 4: A "Estrela Guia" do Dia Zero */
+        /* A "Estrela Guia" do Dia Zero */
         .zero-star {
             position: absolute;
             background: #fff;
             border-radius: 50%;
             cursor: pointer;
-            /* Brilho dourado intenso e único */
             box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.8), 0 0 30px 10px rgba(255, 255, 255, 0.6);
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
             animation: pulseZero 2s alternate infinite;
-            z-index: 7; /* Acima das estrelas de dias normais */
+            z-index: 7; 
         }
 
         .zero-star:hover {
@@ -129,7 +127,7 @@
             100% { opacity: 1; transform: scale(1.15); }
         }
 
-        /* Modal das frases (z-index: 100+) */
+        /* Modal das frases */
         .phrase-modal {
             position: fixed;
             inset: 0;
@@ -172,9 +170,8 @@
             line-height: 1.4;
         }
 
-        /* Estilo para a frase especial da Estrela Guia */
         .phrase-text.zero-phrase {
-            color: #fffae6; /* Tom dourado suave */
+            color: #fffae6; 
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
@@ -194,9 +191,7 @@
             transform: scale(1.05);
         }
 
-        /* =========================================================
-           CONTROLES: RELÓGIO, BOTÃO DE DESEJO E METEOROS
-           ========================================================= */
+        /* Controles: Relógio, Botões */
         .footer-controls {
             position: fixed;
             bottom: 25px;
@@ -207,7 +202,7 @@
             align-items: flex-end;
             padding: 0 30px;
             box-sizing: border-box;
-            z-index: 50; /* Acima das estrelas */
+            z-index: 50; 
         }
 
         .button-group {
@@ -268,7 +263,52 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 4; /* Fica entre o fundo e as estrelas clicáveis */
+            z-index: 4; 
+        }
+
+        /* =========================================
+           NOVAS REGRAS DE RESPONSIVIDADE (CELULAR)
+           ========================================= */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem; /* Reduz o tamanho do título */
+                padding: 0 15px;
+            }
+
+            .title-container {
+                top: 25px; /* Sobe um pouquinho o título */
+            }
+
+            .footer-controls {
+                flex-direction: column; /* Coloca os itens em coluna */
+                align-items: center;    /* Centraliza tudo */
+                padding: 0 15px;
+                bottom: 20px;
+                gap: 20px; /* Dá um respiro entre os botões e o relógio */
+            }
+
+            .button-group {
+                justify-content: center; /* Centraliza os botões */
+                gap: 10px;
+            }
+
+            .wish-btn {
+                font-size: 0.85rem;
+                padding: 8px 16px;
+            }
+
+            .infinity-clock {
+                text-align: center; /* Centraliza o texto do relógio */
+                font-size: 0.8rem;
+            }
+
+            .infinity-clock span {
+                font-size: 1.2rem;
+            }
+
+            .phrase-text {
+                font-size: 1.8rem; /* Frase do modal menor para caber na tela */
+            }
         }
     </style>
 </head>
@@ -305,7 +345,6 @@
     </div>
 
     <script>
-        // Cálculo exato de dias até hoje
         const dataInicio = new Date(2025, 11, 20); 
         const agora = new Date();
         const dias = Math.max(1, Math.floor((agora - dataInicio) / (1000 * 60 * 60 * 24)));
@@ -334,7 +373,6 @@
             "Eu te amo muito mais do que as palavras podem explicar."
         ];
 
-        // Frase especial para o Dia Zero
         const zeroPhrase = `Dia ${dataInicio.toLocaleDateString('pt-BR')}: O exato momento em que nossa constelação começou a se formar. Foi o início do nosso 'Para Sempre'. Eu te amo muito, Jezz. 💖`;
 
         const phraseModal = document.getElementById('phraseModal');
@@ -419,10 +457,7 @@
         
         sky.appendChild(zeroStar);
 
-        /* =========================================================
-           LÓGICA DO RELÓGIO E DA CHUVA DE METEOROS
-           ========================================================= */
-
+        // Lógica do Relógio e Meteoros
         function updateClock() {
             const agoraClock = new Date();
             const diff = agoraClock - dataInicio;
@@ -458,23 +493,32 @@
         });
 
         /* =========================================================
-           NOVO: LÓGICA DA CONSTELAÇÃO (LIGANDO OS PONTOS)
+           LÓGICA DA CONSTELAÇÃO (RESPONSIVA)
            ========================================================= */
         const canvas = document.getElementById('constellationCanvas');
         const ctx = canvas.getContext('2d');
         let constellationVisible = false;
         let animationId;
 
-        // Ajusta o tamanho do canvas para o tamanho da tela
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
-        window.addEventListener('resize', resizeCanvas);
+        
+        // Se a tela mudar de tamanho (virar o celular ou ajustar a janela)
+        // apaga a constelação para não ficar desalinhada.
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            if (constellationVisible) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                constellationVisible = false;
+                document.getElementById('btnConstellation').innerHTML = "🌌 Nossa Constelação";
+                cancelAnimationFrame(animationId);
+            }
+        });
         resizeCanvas();
 
         document.getElementById('btnConstellation').addEventListener('click', () => {
-            // Se já estiver visível, apaga as linhas
             if (constellationVisible) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 constellationVisible = false;
@@ -483,9 +527,8 @@
                 return;
             }
 
-            resizeCanvas(); // Garante as proporções exatas
+            resizeCanvas(); 
             
-            // Pega as posições de todas as estrelas interativas
             const starsElements = Array.from(document.querySelectorAll('.day-star, .zero-star'));
             const points = starsElements.map(s => {
                 const rect = s.getBoundingClientRect();
@@ -497,11 +540,15 @@
 
             const edges = [];
             
-            // Mapeia quais estrelas estão próximas o suficiente para serem ligadas (distância < 180px)
+            // LÓGICA INTELIGENTE DE DISTÂNCIA:
+            // Se for celular (largura < 768px), usa 80px de distância máxima. 
+            // Se for PC, usa 180px. Evita o "emaranhado" no celular.
+            const maxDistance = window.innerWidth <= 768 ? 85 : 180;
+            
             for (let i = 0; i < points.length; i++) {
                 for (let j = i + 1; j < points.length; j++) {
                     const dist = Math.hypot(points[i].x - points[j].x, points[i].y - points[j].y);
-                    if (dist < 180) {
+                    if (dist < maxDistance) {
                         edges.push({ p1: points[i], p2: points[j] });
                     }
                 }
@@ -509,21 +556,19 @@
 
             let progress = 0;
             
-            // Função para desenhar as linhas como se estivessem sendo riscadas
             function drawAnimatedConstellation() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                progress += 0.015; // Velocidade em que a linha é desenhada
+                progress += 0.015; 
                 if (progress > 1) progress = 1;
 
                 ctx.lineWidth = 1;
-                ctx.strokeStyle = `rgba(255, 215, 0, ${progress * 0.8})`; // Cor dourada que intensifica
+                ctx.strokeStyle = `rgba(255, 215, 0, ${progress * 0.8})`; 
                 ctx.shadowBlur = 8;
                 ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
 
                 ctx.beginPath();
                 edges.forEach(edge => {
                     ctx.moveTo(edge.p1.x, edge.p1.y);
-                    // Calcula o ponto atual da linha com base no progresso
                     const currentX = edge.p1.x + (edge.p2.x - edge.p1.x) * progress;
                     const currentY = edge.p1.y + (edge.p2.y - edge.p1.y) * progress;
                     ctx.lineTo(currentX, currentY);
