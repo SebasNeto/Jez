@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Céu Estrelado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            /* Fundo base escuro e profundo */
+            background-color: #0b1024;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* OPÇÃO 3: Camada da Aurora Boreal (por trás de tudo) */
+        .aurora-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1; /* Atrás das estrelas (z-index: 2+) */
+            overflow: hidden;
+            pointer-events: none;
+            opacity: 0.7; /* Suaviza o efeito */
+        }
+
+        .aurora-layer {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(100, 255, 218, 0.4) 0%, rgba(100, 255, 218, 0) 40%),
+                radial-gradient(circle at 70% 60%, rgba(160, 90, 255, 0.3) 0%, rgba(160, 90, 255, 0) 50%),
+                radial-gradient(circle at 10% 80%, rgba(255, 77, 109, 0.2) 0%, rgba(255, 77, 109, 0) 40%);
+            filter: blur(80px); /* Cria o efeito de gás difuso */
+            animation: auroraMovement 40s linear infinite alternate;
+        }
+
+        @keyframes auroraMovement {
+            0% { transform: translate(-25%, -10%) rotate(0deg) scale(1); }
+            50% { transform: translate(-10%, 10%) rotate(5deg) scale(1.1); }
+            100% { transform: translate(-25%, -10%) rotate(0deg) scale(1); }
+        }
+
+        /* Título */
+        .title-container {
+            position: absolute;
+            top: 40px;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+            z-index: 10; /* Acima de tudo */
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            margin: 0;
+            text-shadow: 0 0 15px rgba(255,255,255,0.8);
+            padding: 0 20px;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        /* Estrelas de fundo (cenário vazio - z-index: 2) */
+        .bg-star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            pointer-events: none;
+            animation: twinkleBg alternate infinite;
+            z-index: 2;
+        }
+
+        @keyframes twinkleBg {
+            0% { opacity: 0.1; transform: scale(0.8); }
+            100% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* Estrelas clicáveis (Os dias de vocês - z-index: 5) */
+        .day-star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 8px 2px rgba(255, 77, 109, 0.6);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+            animation: pulseDay alternate infinite;
+            z-index: 5;
+        }
+
+        .day-star:hover {
+            transform: scale(2.5);
+            box-shadow: 0 0 20px 5px rgba(255, 77, 109, 0.9), 0 0 30px white;
+            z-index: 6; /* Acima ao passar o mouse */
+        }
+
+        @keyframes pulseDay {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* OPÇÃO 4: A "Estrela Guia" do Dia Zero */
+        .zero-star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            /* Brilho dourado intenso e único */
+            box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.8), 0 0 30px 10px rgba(255, 255, 255, 0.6);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+            animation: pulseZero 2s alternate infinite;
+            z-index: 7; /* Acima das estrelas de dias normais */
+        }
+
+        .zero-star:hover {
+            transform: scale(3);
+            box-shadow: 0 0 25px 8px rgba(255, 215, 0, 1), 0 0 40px 15px rgba(255, 255, 255, 0.8);
+            z-index: 8;
+        }
+
+        @keyframes pulseZero {
+            0% { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.15); }
+        }
+
+        /* Modal das frases (z-index: 100+) */
+        .phrase-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .phrase-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .phrase-box {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 80%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(255, 77, 109, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .phrase-modal.show .phrase-box {
+            transform: scale(1);
+        }
+
+        .phrase-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: #ffe6eb;
+            line-height: 1.4;
+        }
+
+        /* Estilo para a frase especial da Estrela Guia */
+        .phrase-text.zero-phrase {
+            color: #fffae6; /* Tom dourado suave */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* =========================================================
+           CONTROLES: RELÓGIO, BOTÃO DE DESEJO E METEOROS
+           ========================================================= */
+        .footer-controls {
+            position: fixed;
+            bottom: 25px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 30px;
+            box-sizing: border-box;
+            z-index: 50; /* Acima das estrelas */
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .wish-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            font-size: 0.9rem;
+            transition: background 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .wish-btn:hover { background: rgba(255, 77, 109, 0.3); }
+
+        .infinity-clock {
+            text-align: right;
+            font-size: 0.85rem;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            opacity: 0.9;
+        }
+
+        .infinity-clock span {
+            display: block;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            color: #ff85a1;
+        }
+
+        /* Estrelas Cadentes */
+        .shooting-star {
+            position: absolute;
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(to right, rgba(255,255,255,0), #fff);
+            opacity: 0;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0) rotate(-35deg); opacity: 1; }
+            100% { transform: translateX(1000px) translateY(600px) rotate(-35deg); opacity: 0; }
+        }
+
+        /* Canvas da Constelação */
+        #constellationCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 4; /* Fica entre o fundo e as estrelas clicáveis */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="aurora-container">
+        <div class="aurora-layer"></div>
+    </div>
+
+    <div class="title-container">
+        <h1>O meu amor por você é do tamanho do nosso universo.<br>Sempre em expansão ✨</h1>
+    </div>
+
+    <div id="sky"></div>
+    
+    <canvas id="constellationCanvas"></canvas>
+
+    <div class="footer-controls">
+        <div class="button-group">
+            <button class="wish-btn" id="btnWish">✨ Faça um pedido</button>
+            <button class="wish-btn" id="btnConstellation">🌌 Nossa Constelação</button>
+        </div>
+        <div class="infinity-clock" id="clock">
+            Nosso universo em expansão há:
+            <span id="timeCounter">Calculando...</span>
+        </div>
+    </div>
+
+    <div class="phrase-modal" id="phraseModal">
+        <div class="phrase-box">
+            <div class="phrase-text" id="phraseText"></div>
+            <button class="close-btn" id="closeBtn">Guardar com carinho</button>
+        </div>
+    </div>
+
+    <script>
+        // Cálculo exato de dias até hoje
+        const dataInicio = new Date(2025, 11, 20); 
+        const agora = new Date();
+        const dias = Math.max(1, Math.floor((agora - dataInicio) / (1000 * 60 * 60 * 24)));
+        
+        const sky = document.getElementById('sky');
+        const phrases = [
+            "Você é a minha estrela mais brilhante.",
+            "Cada dia com você é uma nova descoberta.",
+            "Meu universo faz sentido porque você está nele.",
+            "Te amar é a melhor parte do meu dia.",
+            "Você ilumina as minhas noites mais escuras.",
+            "Mesmo no caos, você é a minha paz.",
+            "Amo até os seus pequenos detalhes, porque eles te fazem única.",
+            "Seu sorriso é o meu evento astronômico favorito.",
+            "Não importa a distância, meu pensamento sempre voa até você.",
+            "Você é a poesia que o universo escreveu pra mim.",
+            "Cada estrela aqui é um 'eu te amo' que eu guardei pra você.",
+            "Com você, a eternidade parece pouco tempo.",
+            "O brilho do seu olhar ofusca qualquer estrela.",
+            "Você é o meu destino favorito.",
+            "A gravidade não é nada perto da força que me puxa pra você.",
+            "Cada momento nosso está gravado no meu coração.",
+            "Se eu pudesse escolher de novo, escolheria você todas as vezes.",
+            "Você trouxe as cores mais lindas para a minha vida.",
+            "O som da sua risada é a minha música preferida.",
+            "Eu te amo muito mais do que as palavras podem explicar."
+        ];
+
+        // Frase especial para o Dia Zero
+        const zeroPhrase = `Dia ${dataInicio.toLocaleDateString('pt-BR')}: O exato momento em que nossa constelação começou a se formar. Foi o início do nosso 'Para Sempre'. Eu te amo muito, Jezz. 💖`;
+
+        const phraseModal = document.getElementById('phraseModal');
+        const phraseText = document.getElementById('phraseText');
+        const closeBtn = document.getElementById('closeBtn');
+
+        function showPhrase(phrase, isZero = false) {
+            phraseText.textContent = `"${phrase}"`;
+            
+            if (isZero) {
+                phraseText.classList.add('zero-phrase');
+            } else {
+                phraseText.classList.remove('zero-phrase');
+            }
+            
+            phraseModal.classList.add('show');
+        }
+
+        closeBtn.addEventListener('click', () => {
+            phraseModal.classList.remove('show');
+        });
+
+        phraseModal.addEventListener('click', (e) => {
+            if (e.target === phraseModal) phraseModal.classList.remove('show');
+        });
+
+        // 1. GERAR A POEIRA ESTELAR (FUNDO)
+        for (let i = 0; i < 300; i++) {
+            const bgStar = document.createElement('div');
+            bgStar.classList.add('bg-star');
+            
+            const size = Math.random() * 2 + 0.5; 
+            bgStar.style.width = size + 'px';
+            bgStar.style.height = size + 'px';
+            
+            bgStar.style.left = Math.random() * 100 + 'vw';
+            bgStar.style.top = Math.random() * 100 + 'vh';
+            
+            bgStar.style.animationDuration = (Math.random() * 4 + 2) + 's';
+            bgStar.style.animationDelay = (Math.random() * 3) + 's';
+            
+            sky.appendChild(bgStar);
+        }
+
+        // 2. GERAR AS ESTRELAS CLICÁVEIS (DIAS)
+        for (let i = 1; i < dias; i++) {
+            const star = document.createElement('div');
+            star.classList.add('day-star');
+            
+            const size = Math.random() * 3 + 3; 
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            
+            star.style.left = (Math.random() * 80 + 10) + 'vw'; 
+            star.style.top = (Math.random() * 70 + 20) + 'vh'; 
+            
+            star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+            star.style.animationDelay = (Math.random() * 2) + 's';
+
+            star.addEventListener('click', () => {
+                const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+                showPhrase(randomPhrase);
+            });
+            
+            sky.appendChild(star);
+        }
+
+        // 3. GERAR A "ESTRELA GUIA" (DIA ZERO)
+        const zeroStar = document.createElement('div');
+        zeroStar.classList.add('zero-star');
+        
+        const zeroSize = 10; 
+        zeroStar.style.width = zeroSize + 'px';
+        zeroStar.style.height = zeroSize + 'px';
+        
+        zeroStar.style.right = '15vw';
+        zeroStar.style.top = '25vh';
+        
+        zeroStar.addEventListener('click', () => {
+            showPhrase(zeroPhrase, true); 
+        });
+        
+        sky.appendChild(zeroStar);
+
+        /* =========================================================
+           LÓGICA DO RELÓGIO E DA CHUVA DE METEOROS
+           ========================================================= */
+
+        function updateClock() {
+            const agoraClock = new Date();
+            const diff = agoraClock - dataInicio;
+
+            const calcDias = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const calcHoras = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const calcMinutos = Math.floor((diff / 1000 / 60) % 60);
+            const calcSegundos = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('timeCounter').textContent = 
+                `${calcDias} dias, ${calcHoras}h ${calcMinutos}m ${calcSegundos}s`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock(); 
+
+        document.getElementById('btnWish').addEventListener('click', () => {
+            for(let i=0; i<8; i++) {
+                setTimeout(() => {
+                    const meteor = document.createElement('div');
+                    meteor.className = 'shooting-star';
+                    meteor.style.top = Math.random() * 40 + '%';
+                    meteor.style.left = Math.random() * 20 + '%';
+                    meteor.style.animation = `shoot 1.5s ease-out forwards`;
+                    sky.appendChild(meteor);
+                    
+                    setTimeout(() => meteor.remove(), 2000);
+                }, i * 400); 
+            }
+            
+            setTimeout(() => {
+                showPhrase("Pode fazer seu pedido. O meu já se realizou quando te conheci.");
+            }, 1000);
+        });
+
+        /* =========================================================
+           NOVO: LÓGICA DA CONSTELAÇÃO (LIGANDO OS PONTOS)
+           ========================================================= */
+        const canvas = document.getElementById('constellationCanvas');
+        const ctx = canvas.getContext('2d');
+        let constellationVisible = false;
+        let animationId;
+
+        // Ajusta o tamanho do canvas para o tamanho da tela
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        document.getElementById('btnConstellation').addEventListener('click', () => {
+            // Se já estiver visível, apaga as linhas
+            if (constellationVisible) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                constellationVisible = false;
+                document.getElementById('btnConstellation').innerHTML = "🌌 Nossa Constelação";
+                cancelAnimationFrame(animationId);
+                return;
+            }
+
+            resizeCanvas(); // Garante as proporções exatas
+            
+            // Pega as posições de todas as estrelas interativas
+            const starsElements = Array.from(document.querySelectorAll('.day-star, .zero-star'));
+            const points = starsElements.map(s => {
+                const rect = s.getBoundingClientRect();
+                return {
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2
+                };
+            });
+
+            const edges = [];
+            
+            // Mapeia quais estrelas estão próximas o suficiente para serem ligadas (distância < 180px)
+            for (let i = 0; i < points.length; i++) {
+                for (let j = i + 1; j < points.length; j++) {
+                    const dist = Math.hypot(points[i].x - points[j].x, points[i].y - points[j].y);
+                    if (dist < 180) {
+                        edges.push({ p1: points[i], p2: points[j] });
+                    }
+                }
+            }
+
+            let progress = 0;
+            
+            // Função para desenhar as linhas como se estivessem sendo riscadas
+            function drawAnimatedConstellation() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                progress += 0.015; // Velocidade em que a linha é desenhada
+                if (progress > 1) progress = 1;
+
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = `rgba(255, 215, 0, ${progress * 0.8})`; // Cor dourada que intensifica
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
+
+                ctx.beginPath();
+                edges.forEach(edge => {
+                    ctx.moveTo(edge.p1.x, edge.p1.y);
+                    // Calcula o ponto atual da linha com base no progresso
+                    const currentX = edge.p1.x + (edge.p2.x - edge.p1.x) * progress;
+                    const currentY = edge.p1.y + (edge.p2.y - edge.p1.y) * progress;
+                    ctx.lineTo(currentX, currentY);
+                });
+                ctx.stroke();
+
+                if (progress < 1) {
+                    animationId = requestAnimationFrame(drawAnimatedConstellation);
+                }
+            }
+
+            constellationVisible = true;
+            document.getElementById('btnConstellation').innerHTML = "✨ Esconder Constelação";
+            drawAnimatedConstellation();
+        });
+
+    </script>
+</body>
+</html>
