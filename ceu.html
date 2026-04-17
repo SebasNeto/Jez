@@ -127,6 +127,66 @@
             100% { opacity: 1; transform: scale(1.15); }
         }
 
+        /* =========================================
+           NOVO: A LUA E O EFEITO ECLIPSE
+           ========================================= */
+        .moon {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(circle at 30% 30%, #ffffff, #e0e0e0);
+            border-radius: 50%;
+            box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.5), inset -10px -10px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 15;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .moon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px 10px rgba(255, 255, 255, 0.8), inset -10px -10px 15px rgba(0,0,0,0.2);
+        }
+
+        .eclipse-overlay {
+            position: fixed;
+            inset: 0;
+            background: #020204; /* Breu quase absoluto */
+            z-index: 90; /* Acima de tudo, abaixo do modal */
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 4s ease-in-out; /* Escurece bem devagar */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .eclipse-overlay.active {
+            opacity: 1;
+            pointer-events: all; /* Bloqueia outros cliques enquanto durar */
+        }
+
+        .eclipse-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 3s ease-in-out, transform 3s ease-in-out;
+            text-align: center;
+            padding: 0 20px;
+            max-width: 800px;
+        }
+
+        /* A frase só aparece DEPOIS que o escuro tomar conta */
+        .eclipse-overlay.active .eclipse-text {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 2.5s; 
+        }
+
         /* Modal das frases */
         .phrase-modal {
             position: fixed;
@@ -162,7 +222,7 @@
             transform: scale(1);
         }
 
-        .phrase-text {
+        .phrase-text-box {
             font-family: 'Dancing Script', cursive;
             font-size: 2.2rem;
             margin-bottom: 25px;
@@ -170,7 +230,7 @@
             line-height: 1.4;
         }
 
-        .phrase-text.zero-phrase {
+        .phrase-text-box.zero-phrase {
             color: #fffae6; 
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
@@ -271,24 +331,35 @@
            ========================================= */
         @media (max-width: 768px) {
             h1 {
-                font-size: 1.8rem; /* Reduz o tamanho do título */
+                font-size: 1.8rem; 
                 padding: 0 15px;
             }
 
             .title-container {
-                top: 25px; /* Sobe um pouquinho o título */
+                top: 25px; 
+            }
+
+            .moon {
+                top: 20px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+            }
+
+            .eclipse-text {
+                font-size: 2.2rem;
             }
 
             .footer-controls {
-                flex-direction: column; /* Coloca os itens em coluna */
-                align-items: center;    /* Centraliza tudo */
+                flex-direction: column; 
+                align-items: center;    
                 padding: 0 15px;
                 bottom: 20px;
-                gap: 20px; /* Dá um respiro entre os botões e o relógio */
+                gap: 20px; 
             }
 
             .button-group {
-                justify-content: center; /* Centraliza os botões */
+                justify-content: center; 
                 gap: 10px;
             }
 
@@ -298,7 +369,7 @@
             }
 
             .infinity-clock {
-                text-align: center; /* Centraliza o texto do relógio */
+                text-align: center; 
                 font-size: 0.8rem;
             }
 
@@ -306,8 +377,8 @@
                 font-size: 1.2rem;
             }
 
-            .phrase-text {
-                font-size: 1.8rem; /* Frase do modal menor para caber na tela */
+            .phrase-text-box {
+                font-size: 1.8rem; 
             }
         }
     </style>
@@ -317,6 +388,8 @@
     <div class="aurora-container">
         <div class="aurora-layer"></div>
     </div>
+
+    <div class="moon" id="moon" title="O que acontece se o universo apagar?"></div>
 
     <div class="title-container">
         <h1>O meu amor por você é do tamanho do nosso universo.<br>Sempre em expansão ✨</h1>
@@ -337,9 +410,13 @@
         </div>
     </div>
 
+    <div class="eclipse-overlay" id="eclipseOverlay">
+        <div class="eclipse-text" id="eclipseText">Mesmo no escuro absoluto, eu sempre te encontraria.</div>
+    </div>
+
     <div class="phrase-modal" id="phraseModal">
         <div class="phrase-box">
-            <div class="phrase-text" id="phraseText"></div>
+            <div class="phrase-text-box" id="phraseText"></div>
             <button class="close-btn" id="closeBtn">Guardar com carinho</button>
         </div>
     </div>
@@ -426,7 +503,8 @@
             star.style.width = size + 'px';
             star.style.height = size + 'px';
             
-            star.style.left = (Math.random() * 80 + 10) + 'vw'; 
+            const maxLeft = window.innerWidth <= 768 ? 85 : 80;
+            star.style.left = (Math.random() * maxLeft + 5) + 'vw'; 
             star.style.top = (Math.random() * 70 + 20) + 'vh'; 
             
             star.style.animationDuration = (Math.random() * 2 + 1) + 's';
@@ -456,6 +534,31 @@
         });
         
         sky.appendChild(zeroStar);
+
+        // =========================================================
+        // 4. LÓGICA DO ECLIPSE (NOVIDADE)
+        // =========================================================
+        const moonBtn = document.getElementById('moon');
+        const eclipseOverlay = document.getElementById('eclipseOverlay');
+        let eclipseAtivo = false;
+
+        moonBtn.addEventListener('click', () => {
+            if (eclipseAtivo) return; // Evita cliques duplos
+            eclipseAtivo = true;
+
+            // Escurece a tela e revela o texto após o delay do CSS
+            eclipseOverlay.classList.add('active');
+
+            // Depois de 9 segundos de drama/romance no escuro, o universo volta
+            setTimeout(() => {
+                eclipseOverlay.classList.remove('active');
+                
+                // Libera para clicar novamente apenas depois que clarear totalmente (4s de transição)
+                setTimeout(() => {
+                    eclipseAtivo = false;
+                }, 4000); 
+            }, 9000);
+        });
 
         // Lógica do Relógio e Meteoros
         function updateClock() {
@@ -492,9 +595,7 @@
             }, 1000);
         });
 
-        /* =========================================================
-           LÓGICA DA CONSTELAÇÃO (RESPONSIVA)
-           ========================================================= */
+        // LÓGICA DA CONSTELAÇÃO (RESPONSIVA)
         const canvas = document.getElementById('constellationCanvas');
         const ctx = canvas.getContext('2d');
         let constellationVisible = false;
@@ -505,8 +606,6 @@
             canvas.height = window.innerHeight;
         }
         
-        // Se a tela mudar de tamanho (virar o celular ou ajustar a janela)
-        // apaga a constelação para não ficar desalinhada.
         window.addEventListener('resize', () => {
             resizeCanvas();
             if (constellationVisible) {
@@ -540,9 +639,6 @@
 
             const edges = [];
             
-            // LÓGICA INTELIGENTE DE DISTÂNCIA:
-            // Se for celular (largura < 768px), usa 80px de distância máxima. 
-            // Se for PC, usa 180px. Evita o "emaranhado" no celular.
             const maxDistance = window.innerWidth <= 768 ? 85 : 180;
             
             for (let i = 0; i < points.length; i++) {
