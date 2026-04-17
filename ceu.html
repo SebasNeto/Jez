@@ -271,24 +271,24 @@
            ========================================= */
         @media (max-width: 768px) {
             h1 {
-                font-size: 1.8rem; 
+                font-size: 1.8rem; /* Reduz o tamanho do título */
                 padding: 0 15px;
             }
 
             .title-container {
-                top: 25px; 
+                top: 25px; /* Sobe um pouquinho o título */
             }
 
             .footer-controls {
-                flex-direction: column; 
-                align-items: center;    
+                flex-direction: column; /* Coloca os itens em coluna */
+                align-items: center;    /* Centraliza tudo */
                 padding: 0 15px;
                 bottom: 20px;
-                gap: 20px; 
+                gap: 20px; /* Dá um respiro entre os botões e o relógio */
             }
 
             .button-group {
-                justify-content: center; 
+                justify-content: center; /* Centraliza os botões */
                 gap: 10px;
             }
 
@@ -298,7 +298,7 @@
             }
 
             .infinity-clock {
-                text-align: center; 
+                text-align: center; /* Centraliza o texto do relógio */
                 font-size: 0.8rem;
             }
 
@@ -307,7 +307,7 @@
             }
 
             .phrase-text {
-                font-size: 1.8rem; 
+                font-size: 1.8rem; /* Frase do modal menor para caber na tela */
             }
         }
     </style>
@@ -399,7 +399,7 @@
             if (e.target === phraseModal) phraseModal.classList.remove('show');
         });
 
-        // GERAR A POEIRA ESTELAR (FUNDO)
+        // 1. GERAR A POEIRA ESTELAR (FUNDO)
         for (let i = 0; i < 300; i++) {
             const bgStar = document.createElement('div');
             bgStar.classList.add('bg-star');
@@ -417,7 +417,7 @@
             sky.appendChild(bgStar);
         }
 
-        // GERAR AS ESTRELAS CLICÁVEIS (DIAS)
+        // 2. GERAR AS ESTRELAS CLICÁVEIS (DIAS)
         for (let i = 1; i < dias; i++) {
             const star = document.createElement('div');
             star.classList.add('day-star');
@@ -426,12 +426,8 @@
             star.style.width = size + 'px';
             star.style.height = size + 'px';
             
-            // Centraliza mais as estrelas no celular para não ficarem escondidas nas bordas
-            const margemLeft = window.innerWidth <= 768 ? (Math.random() * 80 + 10) : (Math.random() * 80 + 10);
-            const margemTop = window.innerWidth <= 768 ? (Math.random() * 60 + 20) : (Math.random() * 70 + 20);
-            
-            star.style.left = margemLeft + 'vw'; 
-            star.style.top = margemTop + 'vh'; 
+            star.style.left = (Math.random() * 80 + 10) + 'vw'; 
+            star.style.top = (Math.random() * 70 + 20) + 'vh'; 
             
             star.style.animationDuration = (Math.random() * 2 + 1) + 's';
             star.style.animationDelay = (Math.random() * 2) + 's';
@@ -444,7 +440,7 @@
             sky.appendChild(star);
         }
 
-        // GERAR A "ESTRELA GUIA" (DIA ZERO)
+        // 3. GERAR A "ESTRELA GUIA" (DIA ZERO)
         const zeroStar = document.createElement('div');
         zeroStar.classList.add('zero-star');
         
@@ -497,7 +493,7 @@
         });
 
         /* =========================================================
-           LÓGICA DA CONSTELAÇÃO (CORRIGIDA PARA NÃO VIRAR BORRÃO)
+           LÓGICA DA CONSTELAÇÃO (RESPONSIVA)
            ========================================================= */
         const canvas = document.getElementById('constellationCanvas');
         const ctx = canvas.getContext('2d');
@@ -509,6 +505,8 @@
             canvas.height = window.innerHeight;
         }
         
+        // Se a tela mudar de tamanho (virar o celular ou ajustar a janela)
+        // apaga a constelação para não ficar desalinhada.
         window.addEventListener('resize', () => {
             resizeCanvas();
             if (constellationVisible) {
@@ -541,33 +539,17 @@
             });
 
             const edges = [];
-            // Limite de quantas linhas saem de CADA estrela (2 no celular, 4 no PC)
-            const maxLinesPerStar = window.innerWidth <= 768 ? 2 : 4;
-            // Distância máxima da linha (55px no celular, 160px no PC)
-            const maxDistance = window.innerWidth <= 768 ? 55 : 160;
             
-            // Array para contar quantas ligações cada estrela já tem
-            const connectionsCount = new Array(points.length).fill(0);
-
+            // LÓGICA INTELIGENTE DE DISTÂNCIA:
+            // Se for celular (largura < 768px), usa 80px de distância máxima. 
+            // Se for PC, usa 180px. Evita o "emaranhado" no celular.
+            const maxDistance = window.innerWidth <= 768 ? 85 : 180;
+            
             for (let i = 0; i < points.length; i++) {
-                // Encontra as distâncias de todas as outras estrelas
-                let neighbors = [];
                 for (let j = i + 1; j < points.length; j++) {
                     const dist = Math.hypot(points[i].x - points[j].x, points[i].y - points[j].y);
                     if (dist < maxDistance) {
-                        neighbors.push({ index: j, dist: dist, p: points[j] });
-                    }
-                }
-                
-                // Ordena as vizinhas para ligar com as mais próximas primeiro
-                neighbors.sort((a, b) => a.dist - b.dist);
-
-                // Cria as ligações respeitando o limite
-                for (let v of neighbors) {
-                    if (connectionsCount[i] < maxLinesPerStar && connectionsCount[v.index] < maxLinesPerStar) {
-                        edges.push({ p1: points[i], p2: v.p });
-                        connectionsCount[i]++;
-                        connectionsCount[v.index]++;
+                        edges.push({ p1: points[i], p2: points[j] });
                     }
                 }
             }
@@ -579,14 +561,10 @@
                 progress += 0.015; 
                 if (progress > 1) progress = 1;
 
-                // Linha mais transparente no celular para ficar delicado
-                const lineOpacity = window.innerWidth <= 768 ? 0.35 : 0.6;
-                const shadowBlurSize = window.innerWidth <= 768 ? 2 : 8;
-
                 ctx.lineWidth = 1;
-                ctx.strokeStyle = `rgba(255, 215, 0, ${progress * lineOpacity})`; 
-                ctx.shadowBlur = shadowBlurSize;
-                ctx.shadowColor = `rgba(255, 215, 0, ${lineOpacity})`;
+                ctx.strokeStyle = `rgba(255, 215, 0, ${progress * 0.8})`; 
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = 'rgba(255, 215, 0, 0.8)';
 
                 ctx.beginPath();
                 edges.forEach(edge => {
