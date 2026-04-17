@@ -128,7 +128,7 @@
         }
 
         /* =========================================
-           NOVO: A LUA E O EFEITO ECLIPSE
+           A LUA E O EFEITO ECLIPSE
            ========================================= */
         .moon {
             position: absolute;
@@ -327,20 +327,22 @@
         }
 
         /* =========================================
-           NOVAS REGRAS DE RESPONSIVIDADE (CELULAR)
+           REGRAS DE RESPONSIVIDADE (CELULAR)
            ========================================= */
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.8rem; 
                 padding: 0 15px;
+                line-height: 1.4;
             }
 
             .title-container {
-                top: 25px; 
+                /* Empurra o título mais para baixo para não bater na lua */
+                top: 85px; 
             }
 
             .moon {
-                top: 20px;
+                top: 25px;
                 left: 20px;
                 width: 45px;
                 height: 45px;
@@ -505,7 +507,10 @@
             
             const maxLeft = window.innerWidth <= 768 ? 85 : 80;
             star.style.left = (Math.random() * maxLeft + 5) + 'vw'; 
-            star.style.top = (Math.random() * 70 + 20) + 'vh'; 
+            
+            // Ajusta margem no mobile para evitar as áreas da lua e botões
+            const minTop = window.innerWidth <= 768 ? 25 : 20;
+            star.style.top = (Math.random() * 60 + minTop) + 'vh'; 
             
             star.style.animationDuration = (Math.random() * 2 + 1) + 's';
             star.style.animationDelay = (Math.random() * 2) + 's';
@@ -527,7 +532,7 @@
         zeroStar.style.height = zeroSize + 'px';
         
         zeroStar.style.right = '15vw';
-        zeroStar.style.top = '25vh';
+        zeroStar.style.top = '30vh';
         
         zeroStar.addEventListener('click', () => {
             showPhrase(zeroPhrase, true); 
@@ -536,24 +541,21 @@
         sky.appendChild(zeroStar);
 
         // =========================================================
-        // 4. LÓGICA DO ECLIPSE (NOVIDADE)
+        // 4. LÓGICA DO ECLIPSE
         // =========================================================
         const moonBtn = document.getElementById('moon');
         const eclipseOverlay = document.getElementById('eclipseOverlay');
         let eclipseAtivo = false;
 
         moonBtn.addEventListener('click', () => {
-            if (eclipseAtivo) return; // Evita cliques duplos
+            if (eclipseAtivo) return; 
             eclipseAtivo = true;
 
-            // Escurece a tela e revela o texto após o delay do CSS
             eclipseOverlay.classList.add('active');
 
-            // Depois de 9 segundos de drama/romance no escuro, o universo volta
             setTimeout(() => {
                 eclipseOverlay.classList.remove('active');
                 
-                // Libera para clicar novamente apenas depois que clarear totalmente (4s de transição)
                 setTimeout(() => {
                     eclipseAtivo = false;
                 }, 4000); 
