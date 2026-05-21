@@ -32,7 +32,7 @@ if (btnMusic && audio) {
 /* ===============================
    Carta que se escreve sozinha
 ================================ */
-const textoCarta = `Jezz, feliz 4 meses com você 💖
+const textoCarta = `Jezz, feliz 5 meses com você 💖
 
 Eu amo como a gente se entende, como você me faz bem e como cada momento ao seu lado vira lembrança boa.
 
@@ -448,7 +448,7 @@ window.addEventListener('resize', () => {
 });
 
 /* ===============================
-   NOVA FUNCIONALIDADE: Botão de Pânico (Dia Ruim)
+   Botão de Pânico (Dia Ruim)
 ================================ */
 const btnDiaRuim = document.getElementById('btnDiaRuim');
 const diaRuimOverlay = document.getElementById('diaRuimOverlay');
@@ -460,7 +460,6 @@ function abrirDiaRuim() {
     diaRuimOverlay.classList.add('show');
     diaRuimOverlay.setAttribute('aria-hidden', 'false');
     
-    // Pausar música principal (se estiver tocando) para trazer paz
     if (audio && !audio.paused) {
         audio.pause();
         audioFoiPausadoPeloPânico = true;
@@ -472,7 +471,6 @@ function fecharDiaRuim() {
     diaRuimOverlay.classList.remove('show');
     diaRuimOverlay.setAttribute('aria-hidden', 'true');
     
-    // Retornar música se foi pausada pelo botão de pânico
     if (audioFoiPausadoPeloPânico && audio) {
         audio.play().catch(() => {});
         audioFoiPausadoPeloPânico = false;
@@ -482,19 +480,152 @@ function fecharDiaRuim() {
 if (btnDiaRuim) btnDiaRuim.addEventListener('click', abrirDiaRuim);
 if (diaRuimClose) diaRuimClose.addEventListener('click', fecharDiaRuim);
 
-// Fechar ao clicar fora da caixinha principal
 if (diaRuimOverlay) {
     diaRuimOverlay.addEventListener('click', (e) => {
         if (e.target === diaRuimOverlay) fecharDiaRuim();
     });
 }
 
-// Fechar com a tecla ESC
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && diaRuimOverlay?.classList.contains('show')) {
         fecharDiaRuim();
     }
 });
+
+
+/* ===============================
+   NOVA FUNCIONALIDADE: Desenhar Corda Azul ONDULADA dinamicamente!
+================================ */
+let ropeLength = 0;
+
+function generateRopePath() {
+    const grid = document.querySelector('.video-grid');
+    const msgText = document.getElementById('akaiItoMsgText');
+    const pathEl = document.getElementById('blueRopePath');
+    const knot = document.getElementById('noAmarradoLateral');
+    const svgEl = document.getElementById('blueRopeSvg');
+
+    if (!grid || !msgText || !pathEl) return;
+
+    // Ajusta o canvas SVG para cobrir toda a página (scroll incluído)
+    const docHeight = document.documentElement.scrollHeight;
+    svgEl.style.height = docHeight + 'px';
+
+    const gridRect = grid.getBoundingClientRect();
+    const msgRect = msgText.getBoundingClientRect();
+    
+    // Calcula posições com base no topo da página
+    const scrollY = window.scrollY || window.pageYOffset;
+    const startY = gridRect.top + scrollY; // Início do grid
+    const endY = msgRect.top + scrollY;    // Topo da mensagem
+
+    const msgCenterX = msgRect.left + msgRect.width / 2;
+    const msgCenterY = endY + msgRect.height / 2;
+
+    // Começa na lateral esquerda com um recuo responsivo
+    const startX = Math.min(25, window.innerWidth * 0.05); 
+
+    let d = `M ${startX},${startY} `;
+
+    // 1. DESENHAR A ONDA PELA LATERAL ESQUERDA
+    const waveHeight = 150;
+    const waveWidth = 15;
+    let currentY = startY;
+    let isRight = true;
+
+    // Desce ondulando até pouco antes da mensagem
+    while (currentY < endY - 120) {
+        const nextY = currentY + waveHeight;
+        const cpX = isRight ? startX + waveWidth : startX - waveWidth;
+        // Desenha curva (Quadratic Bezier)
+        d += `Q ${cpX},${currentY + waveHeight/2} ${startX},${nextY} `;
+        currentY = nextY;
+        isRight = !isRight;
+    }
+
+    // 2. IR PARA A MENSAGEM (Curva saindo da lateral pro centro)
+    const topY = endY - 10;
+    const bottomY = endY + msgRect.height + 10;
+    
+    // Raio do laço em volta do texto
+    const rx = (msgRect.width / 2) + 400;
+    const ry = (msgRect.height / 2) + 15;
+
+    // Curva suave da parede esquerda até o topo central da mensagem
+    d += `C ${startX},${currentY + 60} ${msgCenterX - rx},${topY} ${msgCenterX},${topY} `;
+
+    // 3. FAZER O LAÇO AO REDOR DO TEXTO (Volta 1.5x)
+    // A curva de arco (A) segue a borda da elipse
+    // Lado Direito descendo...
+    d += `A ${rx} ${ry} 0 0 1 ${msgCenterX},${bottomY} `;
+    // Lado Esquerdo subindo... (Completou 1 volta)
+    d += `A ${rx} ${ry} 0 0 1 ${msgCenterX},${topY} `;
+    // Lado Direito descendo de novo para simular um laço de corda passando um pouco por fora
+    d += `A ${rx + 4} ${ry + 4} 0 0 1 ${msgCenterX},${bottomY + 4} `;
+
+    // Aplica o caminho gerado ao SVG
+    pathEl.setAttribute('d', d);
+    
+    // Calcula o tamanho exato dessa corda pra poder animá-la escondendo e revelando
+    ropeLength = pathEl.getTotalLength();
+    pathEl.style.strokeDasharray = ropeLength;
+    pathEl.style.strokeDashoffset = ropeLength; 
+
+    // Posiciona o Nó de fato no fim do traçado
+    knot.style.top = (bottomY + 4) + 'px';
+    knot.style.left = msgCenterX + 'px';
+    
+    updateRopeScroll(); // Atualiza na hora pra ver onde o scroll já está
+}
+
+function updateRopeScroll() {
+    const pathEl = document.getElementById('blueRopePath');
+    const msgText = document.getElementById('akaiItoMsgText');
+    const knot = document.getElementById('noAmarradoLateral');
+    const grid = document.querySelector('.video-grid');
+
+    if (!pathEl || !msgText || !grid || ropeLength === 0) return;
+
+    const startY = grid.getBoundingClientRect().top + window.scrollY;
+    const endY = msgText.getBoundingClientRect().top + window.scrollY;
+    
+    const scrollBottom = window.scrollY + window.innerHeight;
+    
+    // Distância total da rolagem que queremos cobrir
+    const totalDist = (endY + 200) - startY;
+    const currentDist = scrollBottom - startY;
+
+    // Calcula a porcentagem do quão revelada a corda vai estar
+    let drawRatio = currentDist / totalDist;
+    if (drawRatio < 0) drawRatio = 0;
+    if (drawRatio > 1) drawRatio = 1;
+
+    // Empurra ou puxa a linha na tela com base no scroll
+    pathEl.style.strokeDashoffset = ropeLength * (1 - drawRatio);
+
+    // Se chegou quase no fim, exibe brilhante o nó e a mensagem
+    if (drawRatio >= 0.96) {
+        knot.classList.add('show');
+        msgText.classList.add('show');
+    } else {
+        knot.classList.remove('show');
+        msgText.classList.remove('show');
+    }
+}
+
+// Inicia as animações da corda ao carregar a tela e acompanha o redimensionamento dinâmico
+window.addEventListener('load', () => {
+    setTimeout(generateRopePath, 100); 
+});
+window.addEventListener('resize', generateRopePath);
+window.addEventListener('scroll', updateRopeScroll);
+
+/* Como as imagens dos vídeos podem carregar aos poucos e mudar a altura da página, 
+   o observer atualiza a corda caso a tela estique. */
+const observer = new ResizeObserver(() => {
+    generateRopePath();
+});
+observer.observe(document.body);
 
 /* ===============================
    Init

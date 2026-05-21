@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Livro de Votos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7e1e1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            background-image: radial-gradient(circle at center, #fff0f3 0%, #f7e1e1 100%);
+        }
+        
+        .book-container {
+            perspective: 1400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .book {
+            width: min(85vw, 400px);
+            height: min(130vw, 550px);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease;
+        }
+
+        /* Desloca o livro para a direita em telas grandes para ficar centralizado aberto */
+        .book.open {
+            transform: translateX(25%);
+        }
+
+        @media (max-width: 768px) {
+            .book.open {
+                transform: translateX(10%); /* No celular, move menos para não cortar na tela */
+            }
+        }
+
+        .page {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+            cursor: pointer;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.05), 5px 5px 15px rgba(0,0,0,0.1);
+            border-radius: 3px 12px 12px 3px;
+        }
+
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background-color: #fffaf0;
+            border-radius: 3px 12px 12px 3px;
+            padding: 30px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 1px solid #eaddd3;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+            background-color: #fdf6f0;
+            border-radius: 12px 3px 3px 12px;
+            box-shadow: inset -5px 0 10px rgba(0,0,0,0.05);
+        }
+
+        /* Estilos da Capa */
+        .cover {
+            background: linear-gradient(135deg, #a33883, #ff4d6d);
+            color: white;
+            border: none;
+            box-shadow: inset 5px 0 15px rgba(0,0,0,0.2);
+        }
+
+        .cover h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .cover .icon-ring {
+            font-size: 3.5rem;
+            animation: pulseRing 2s infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(0.95); }
+        }
+
+        /* Textos Internos */
+        .front h2 {
+            font-family: 'Dancing Script', cursive;
+            color: #a33883;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .front p {
+            color: #590d22;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            font-weight: 300;
+        }
+
+        /* Página Final (O Clímax) */
+        .final-page {
+            background-color: #fff0f3;
+            border: 2px solid #ffb3c6;
+        }
+
+        .highlight-text {
+            font-family: 'Dancing Script', cursive !important;
+            font-size: 1.9rem !important;
+            color: #d14168 !important;
+            line-height: 1.4 !important;
+            text-shadow: 1px 1px 2px rgba(209, 65, 104, 0.1);
+        }
+
+        .hint {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 50px;
+            font-weight: 600;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.8rem;
+            color: #b0999e;
+        }
+
+        /* Botões de controle (opcional, pois clicar na página já vira) */
+        .controls {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 77, 109, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-voltar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.5);
+            color: #a33883;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="btn-voltar">⟵ Voltar</a>
+
+    <div class="book-container">
+        <div class="book" id="book">
+            
+            <!-- Página 1 (Capa) -->
+            <div class="page" style="z-index: 4;">
+                <div class="front cover">
+                    <h1>O Nosso<br>Futuro</h1>
+                    <div class="icon-ring">💍</div>
+                    <p class="hint">Toque para abrir</p>
+                </div>
+                <div class="back"></div>
+            </div>
+
+            <!-- Página 2 -->
+            <div class="page" style="z-index: 3;">
+                <div class="front">
+                    <h2>Meu Amor,</h2>
+                    <p>Desde o nosso primeiro olhar, eu soube que havia encontrado alguém especial. Você trouxe luz, paz e um amor que eu nem sabia que era possível existir.</p>
+                    <span class="page-number">1</span>
+                </div>
+                <div class="back"></div>
+            </div>
+
+            <!-- Página 3 -->
+            <div class="page" style="z-index: 2;">
+                <div class="front">
+                    <h2>A Nossa História</h2>
+                    <p>Cada sorriso seu, cada obstáculo vencido e cada nova página que viramos juntos só confirmam o que o meu coração já sabe: você é a minha melhor escolha todos os dias.</p>
+                    <span class="page-number">2</span>
+                </div>
+                <div class="back"></div>
+            </div>
+
+            <!-- Página 4 (Final) -->
+            <div class="page" style="z-index: 1;">
+                <div class="front final-page">
+                    <h2>A Minha Promessa</h2>
+                    <br>
+                    <p class="highlight-text">"Essas páginas estão reservadas para o dia em que eu te esperar no altar.<br><br>Os meus votos já estão sendo escritos."</p>
+                </div>
+                <div class="back"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="prevBtn">Página Anterior</button>
+        <button class="btn" id="nextBtn">Próxima Página</button>
+    </div>
+
+    <script>
+        const pages = document.querySelectorAll('.page');
+        const book = document.getElementById('book');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentPage = 0;
+
+        function updateBook() {
+            pages.forEach((page, index) => {
+                if (index < currentPage) {
+                    page.classList.add('flipped');
+                } else {
+                    page.classList.remove('flipped');
+                }
+            });
+
+            if (currentPage > 0) {
+                book.classList.add('open');
+            } else {
+                book.classList.remove('open');
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < pages.length) {
+                currentPage++;
+                updateBook();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                updateBook();
+            }
+        });
+
+        // Permite virar a página clicando direto nela
+        pages.forEach((page, index) => {
+            page.addEventListener('click', () => {
+                if (page.classList.contains('flipped')) {
+                    // Se clicou na parte de trás (já virada), volta a página
+                    currentPage = index;
+                    updateBook();
+                } else {
+                    // Se clicou na frente, vira para a próxima
+                    currentPage = index + 1;
+                    updateBook();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

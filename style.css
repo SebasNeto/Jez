@@ -4,7 +4,7 @@
 
 :root {
     --primary-color: #ff4d6d;
-    --bg-color: #a33883f0;
+    --bg-color: #3886a3f0;
     --text-color: #590d22;
 }
 
@@ -54,7 +54,7 @@ body.universe-on .moment-card{
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 9998; /* abaixo do cinema (9999) */
+    z-index: 9998;
     pointer-events: none;
     background: rgba(0,0,0,0.0);
     opacity: 0;
@@ -93,22 +93,22 @@ body.universe-on .moment-card{
 
 @keyframes universeFade{
     0%   { opacity: 0; background: rgba(0,0,0,0.00); }
-    12%  { opacity: 1; background: rgba(0,0,0,0.62); }  /* entrada rápida */
-    68%  { opacity: 1; background: rgba(0,0,0,0.62); }  /* mantém */
-    100% { opacity: 0; background: rgba(0,0,0,0.00); }  /* saída lenta */
+    12%  { opacity: 1; background: rgba(0,0,0,0.62); }  
+    68%  { opacity: 1; background: rgba(0,0,0,0.62); }  
+    100% { opacity: 0; background: rgba(0,0,0,0.00); }  
 }
 
 @keyframes universePop{
     0%   { opacity: 0; transform: translateY(12px) scale(0.96); }
-    12%  { opacity: 1; transform: translateY(0px)  scale(1.00); } /* entra rápido */
-    68%  { opacity: 1; transform: translateY(0px)  scale(1.00); } /* mantém */
-    100% { opacity: 0; transform: translateY(-8px) scale(0.99); } /* sai lento */
+    12%  { opacity: 1; transform: translateY(0px)  scale(1.00); } 
+    68%  { opacity: 1; transform: translateY(0px)  scale(1.00); } 
+    100% { opacity: 0; transform: translateY(-8px) scale(0.99); } 
 }
 
 /* Header */
 header {
     padding: 30px 20px;
-    background: linear-gradient(135deg, #bc0d9f, #9d85ff);
+    background: linear-gradient(135deg, #0d96bc, #9d85ff);
     color: white;
     text-align: center;
     position: relative;
@@ -131,6 +131,7 @@ h1 {
     gap: 10px;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap; 
 }
 
 .universe-btn{
@@ -567,7 +568,7 @@ footer {
 }
 
 /* ===============================
-   NOVA FUNCIONALIDADE: Botão de Pânico (Dia Ruim)
+   Botão de Pânico (Dia Ruim)
 ================================ */
 .dia-ruim-btn {
     background: linear-gradient(135deg, #5b7c99, #364f6b);
@@ -595,7 +596,7 @@ footer {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    z-index: 10000; /* Fica acima de tudo */
+    z-index: 10000;
     color: #c5c6c7;
     text-align: center;
     opacity: 0;
@@ -639,4 +640,54 @@ footer {
     0% { transform: scale(0.9); }
     50% { transform: scale(1.1); }
     100% { transform: scale(0.9); }
+}
+
+/* ===============================
+   Corda Azul Dinâmica e Nó Infinito
+================================ */
+.no-inner {
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.no-amarrado.show .no-inner {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Mensagem ao final do fio */
+.akai-ito-mensagem-final {
+    text-align: center;
+    padding: 60px 20px 80px 20px; /* Mais espaço para o nó no final */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+}
+
+#akaiItoMsgText {
+    display: inline-block;
+    max-width: 80%;
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2rem;
+    color: #00d2ff;
+    margin: 0;
+    padding: 20px 30px; /* Espaço pro laço passar sem bater na letra */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+    text-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+    z-index: 12; /* Acima da corda */
+}
+
+#akaiItoMsgText.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ajuste no modo Universo para manter a leitura da corda azul */
+body.universe-on #akaiItoMsgText {
+    color: #4facfe;
+    text-shadow: 0 0 10px rgba(79, 172, 254, 0.8);
 }

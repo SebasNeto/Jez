@@ -10,6 +10,21 @@
 </head>
 <body>
 
+<!-- NOVA FUNCIONALIDADE: Corda Azul do Destino (Desenhada dinamicamente pelo JS) -->
+<svg id="blueRopeSvg" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 10;">
+    <path id="blueRopePath" fill="none" stroke="#00d2ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.8));" />
+</svg>
+<div id="noAmarradoLateral" class="no-amarrado" style="position: absolute; z-index: 11; transform: translate(-50%, -15%); pointer-events: none;">
+    <div class="no-inner">
+        <!-- Nó Infinito em Azul Brilhante -->
+        <svg viewBox="0 0 24 24" width="45" height="45" stroke="#00d2ff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 6px rgba(0,210,255,0.9));">
+            <path d="M12 9C8 5 3 8 5 14C7 20 11 14 12 12C13 14 17 20 19 14C21 8 16 5 12 9Z" />
+            <path d="M10 14L7 22" />
+            <path d="M14 14L17 22" />
+        </svg>
+    </div>
+</div>
+
 <canvas id="universeCanvas" aria-hidden="true"></canvas>
 
 <div class="universe-message" id="universeMessage" aria-hidden="true">
@@ -27,6 +42,7 @@
         <button id="btnUniverse" class="universe-btn">🌌 Modo Universo</button>
         <span class="universe-status" id="universeStatus">desligado</span>
         <a href="ceu.html" target="_blank" class="universe-btn" style="text-decoration: none; margin-left: 8px;">✨ Nosso Universo</a>
+        <a href="votos.html" target="_blank" class="universe-btn" style="text-decoration: none; margin-left: 8px;">📖 Livro de Votos</a>
     </div>
 </header>
 
@@ -107,7 +123,6 @@
 
 <main class="container">
     <div class="video-grid">
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -116,7 +131,6 @@
             </div>
             <div class="moment-info">Moment 1</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -125,7 +139,6 @@
             </div>
             <div class="moment-info">Moment 2</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -134,7 +147,6 @@
             </div>
             <div class="moment-info">Moment 3</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -143,7 +155,6 @@
             </div>
             <div class="moment-info">Moment 4</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -152,7 +163,6 @@
             </div>
             <div class="moment-info">Moment 5</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -161,7 +171,6 @@
             </div>
             <div class="moment-info">Moment 6</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -170,7 +179,6 @@
             </div>
             <div class="moment-info">Moment 7</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -179,7 +187,6 @@
             </div>
             <div class="moment-info">Moment 8</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -188,7 +195,6 @@
             </div>
             <div class="moment-info">Moment 9</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -197,7 +203,6 @@
             </div>
             <div class="moment-info">Moment 10</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -206,7 +211,6 @@
             </div>
             <div class="moment-info">Moment 11</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -215,7 +219,6 @@
             </div>
             <div class="moment-info">Moment 12</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -224,7 +227,6 @@
             </div>
             <div class="moment-info">Moment 13</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -233,7 +235,6 @@
             </div>
             <div class="moment-info">Moment 14</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -242,7 +243,6 @@
             </div>
             <div class="moment-info">Moment 15</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -251,7 +251,6 @@
             </div>
             <div class="moment-info">Moment 16</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -260,7 +259,6 @@
             </div>
             <div class="moment-info">Moment 17</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -269,7 +267,6 @@
             </div>
             <div class="moment-info">Moment 18</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -278,7 +275,6 @@
             </div>
             <div class="moment-info">Moment 19</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -287,7 +283,6 @@
             </div>
             <div class="moment-info">Moment 20</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <video controls>
@@ -296,90 +291,85 @@
             </div>
             <div class="moment-info">Moment 21</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <img src="image-1.jpeg" alt="">
             </div>
             <div class="moment-info">Moment 22</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <img src="image-2.jpeg" alt="">
             </div>
             <div class="moment-info">Moment 23</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <img src="image-3.jpeg" alt="">
             </div>
             <div class="moment-info">Moment 24</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <img src="image-4.jpeg" alt="">
             </div>
             <div class="moment-info">Moment 25</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <img src="image-5.jpeg" alt="">
             </div>
             <div class="moment-info">Moment 26</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <img src="image-6.jpeg" alt="">
             </div>
             <div class="moment-info">Moment 27</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <img src="image-7.jpeg" alt="">
             </div>
             <div class="moment-info">Moment 28</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <img src="image-8.jpeg" alt="">
             </div>
             <div class="moment-info">Moment 29</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <img src="image-9.jpeg" alt="">
             </div>
             <div class="moment-info">Moment 30</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <img src="image-10.jpeg" alt="">
             </div>
             <div class="moment-info">Moment 31</div>
         </div>
-
         <div class="moment-card fixed">
             <div class="video-wrapper">
                 <img src="image-11.jpeg" alt="">
             </div>
             <div class="moment-info">Moment 32</div>
         </div>
-
     </div>
 </main>
 
 <div style="text-align: center; margin: 50px 20px;">
     <button id="btnDiaRuim" class="dia-ruim-btn">🌧️ Tive um dia ruim...</button>
 </div>
+
+<div class="divider">❦</div>
+
+<!-- Mensagem Final da Corda e do Nó -->
+<section class="akai-ito-mensagem-final" id="akaiItoMsgLateral">
+    <p id="akaiItoMsgText">Onde quer que a gente vá, o meu destino sempre terminará em você.</p>
+</section>
 
 <footer>
     <div id="counter">Carregando momentos...</div>
