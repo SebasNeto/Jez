@@ -32,7 +32,7 @@ if (btnMusic && audio) {
 /* ===============================
    Carta que se escreve sozinha
 ================================ */
-const textoCarta = `Jezz, feliz 5 meses com você 💖
+const textoCarta = `Jezz, feliz 8 meses com você 💖
 
 Eu amo como a gente se entende, como você me faz bem e como cada momento ao seu lado vira lembrança boa.
 

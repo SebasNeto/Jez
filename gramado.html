@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa Viagem a Gramado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rosa: #ff4d6d;
+            --rosa-claro: #ff85a1;
+            --azul: #3886a3;
+            --roxo: #9d85ff;
+            --texto: #590d22;
+            --papel: rgba(255, 255, 255, 0.94);
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--texto);
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 15% 15%, rgba(255,255,255,.32), transparent 30%),
+                radial-gradient(circle at 85% 35%, rgba(157,133,255,.22), transparent 28%),
+                linear-gradient(160deg, #2a7796 0%, #4d91a8 42%, #856fc3 100%);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,.65) 0 1px, transparent 1.5px),
+                radial-gradient(circle, rgba(255,255,255,.38) 0 1px, transparent 1.5px);
+            background-size: 50px 50px, 75px 75px;
+            background-position: 0 0, 25px 20px;
+            opacity: .35;
+        }
+
+        .topo {
+            min-height: 68vh;
+            padding: 28px 20px 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .voltar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            padding: 10px 16px;
+            border: 1px solid rgba(255,255,255,.35);
+            background: rgba(255,255,255,.12);
+            backdrop-filter: blur(10px);
+            border-radius: 999px;
+            font-weight: 600;
+            transition: .25s ease;
+        }
+
+        .voltar:hover {
+            transform: translateY(-2px);
+            background: rgba(255,255,255,.2);
+        }
+
+        .topo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.13);
+            border: 1px solid rgba(255,255,255,.25);
+            backdrop-filter: blur(8px);
+            font-size: .9rem;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3rem, 8vw, 5.8rem);
+            line-height: 1;
+            margin: 0 0 18px;
+            text-shadow: 0 5px 22px rgba(0,0,0,.25);
+        }
+
+        .subtitulo {
+            max-width: 720px;
+            margin: 0;
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            line-height: 1.7;
+            color: rgba(255,255,255,.92);
+        }
+
+        .coracao {
+            font-size: 2.5rem;
+            margin-top: 28px;
+            animation: pulse 1.8s infinite;
+            filter: drop-shadow(0 0 12px rgba(255,77,109,.45));
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(.95); }
+            50% { transform: scale(1.12); }
+        }
+
+        .album {
+            width: min(1180px, calc(100% - 32px));
+            margin: -45px auto 70px;
+            padding: 34px;
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.22);
+            border-radius: 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 24px 70px rgba(25,40,70,.22);
+            position: relative;
+        }
+
+        .album-titulo {
+            text-align: center;
+            color: white;
+            margin-bottom: 28px;
+        }
+
+        .album-titulo h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2.2rem, 5vw, 3.3rem);
+            margin: 0 0 8px;
+        }
+
+        .album-titulo p {
+            margin: 0;
+            opacity: .9;
+            font-size: .97rem;
+        }
+
+        .galeria {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .foto-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            background: var(--papel);
+            box-shadow: 0 10px 28px rgba(0,0,0,.16);
+            cursor: pointer;
+            min-height: 280px;
+            isolation: isolate;
+            transform: translateY(0);
+            transition: transform .28s ease, box-shadow .28s ease;
+        }
+
+        .foto-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 34px rgba(0,0,0,.22);
+        }
+
+        .foto-card:nth-child(5n + 1) { grid-row: span 2; min-height: 578px; }
+        .foto-card:nth-child(7n + 3) { grid-column: span 2; }
+
+        .foto-card img {
+            width: 100%;
+            height: 100%;
+            min-height: inherit;
+            display: block;
+            object-fit: cover;
+            transition: transform .55s ease, filter .35s ease;
+        }
+
+        .foto-card:hover img {
+            transform: scale(1.04);
+            filter: saturate(1.07);
+        }
+
+        .foto-card::after {
+            content: '';
+            position: absolute;
+            inset: auto 0 0;
+            height: 35%;
+            background: linear-gradient(to top, rgba(0,0,0,.52), transparent);
+            z-index: 1;
+            opacity: .75;
+        }
+
+        .numero {
+            position: absolute;
+            right: 13px;
+            bottom: 11px;
+            z-index: 2;
+            color: white;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,.45);
+        }
+
+        .frase-final {
+            max-width: 820px;
+            margin: 0 auto 85px;
+            padding: 0 25px;
+            color: white;
+            text-align: center;
+        }
+
+        .frase-final p {
+            margin: 0;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2rem, 5vw, 3.1rem);
+            line-height: 1.3;
+            text-shadow: 0 4px 14px rgba(0,0,0,.2);
+        }
+
+        .frase-final span {
+            display: block;
+            margin-top: 17px;
+            font-size: .95rem;
+            opacity: .84;
+        }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(5, 10, 25, .92);
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox.show { display: flex; }
+
+        .lightbox img {
+            max-width: min(1100px, 92vw);
+            max-height: 84vh;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 24px 70px rgba(0,0,0,.55);
+            animation: abrirFoto .25s ease;
+        }
+
+        @keyframes abrirFoto {
+            from { opacity: 0; transform: scale(.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .lightbox-fechar,
+        .lightbox-nav {
+            position: absolute;
+            border: 1px solid rgba(255,255,255,.28);
+            background: rgba(255,255,255,.12);
+            color: white;
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .lightbox-fechar:hover,
+        .lightbox-nav:hover { background: rgba(255,255,255,.22); }
+
+        .lightbox-fechar {
+            top: 18px;
+            right: 20px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+        }
+
+        .lightbox-nav {
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 62px;
+            border-radius: 18px;
+            font-size: 1.7rem;
+        }
+
+        .lightbox-prev { left: 18px; }
+        .lightbox-next { right: 18px; }
+
+        .lightbox-contador {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.18);
+            font-size: .9rem;
+        }
+
+        @media (max-width: 900px) {
+            .galeria { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .foto-card:nth-child(7n + 3) { grid-column: span 1; }
+            .foto-card:nth-child(5n + 1) { grid-row: span 1; min-height: 330px; }
+            .foto-card { min-height: 330px; }
+        }
+
+        @media (max-width: 600px) {
+            .topo { min-height: 58vh; padding-top: 86px; }
+            .voltar { top: 16px; left: 16px; }
+            .album { width: calc(100% - 20px); padding: 15px; border-radius: 20px; }
+            .galeria { grid-template-columns: 1fr; gap: 14px; }
+            .foto-card,
+            .foto-card:nth-child(5n + 1) { min-height: 410px; }
+            .foto-card:nth-child(7n + 3) { grid-column: span 1; }
+            .lightbox { padding: 16px; }
+            .lightbox-nav { width: 42px; height: 52px; }
+            .lightbox-prev { left: 8px; }
+            .lightbox-next { right: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topo">
+        <a href="index.html" class="voltar">⟵ Voltar</a>
+        <div class="topo-badge">✈️ Uma viagem para guardar para sempre</div>
+        <h1>Nossa Viagem a Gramado</h1>
+        <p class="subtitulo">
+            Entre paisagens, passeios, risadas e momentos que eu queria congelar no tempo,
+            Gramado ganhou um significado ainda mais bonito porque eu vivi tudo isso com você.
+        </p>
+        <div class="coracao">💖</div>
+    </header>
+
+    <main class="album">
+        <div class="album-titulo">
+            <h2>Nosso álbum</h2>
+            <p>23 lembranças de uma viagem que agora também faz parte da nossa história.</p>
+        </div>
+
+        <section class="galeria" id="galeria">
+            <div class="foto-card"><img src="gramados/01.jpeg" alt="Nossa viagem a Gramado - foto 01" loading="lazy"><span class="numero">01</span></div>
+            <div class="foto-card"><img src="gramados/02.jpeg" alt="Nossa viagem a Gramado - foto 02" loading="lazy"><span class="numero">02</span></div>
+            <div class="foto-card"><img src="gramados/03.jpeg" alt="Nossa viagem a Gramado - foto 03" loading="lazy"><span class="numero">03</span></div>
+            <div class="foto-card"><img src="gramados/04.jpeg" alt="Nossa viagem a Gramado - foto 04" loading="lazy"><span class="numero">04</span></div>
+            <div class="foto-card"><img src="gramados/05.jpeg" alt="Nossa viagem a Gramado - foto 05" loading="lazy"><span class="numero">05</span></div>
+            <div class="foto-card"><img src="gramados/06.jpeg" alt="Nossa viagem a Gramado - foto 06" loading="lazy"><span class="numero">06</span></div>
+            <div class="foto-card"><img src="gramados/07.jpeg" alt="Nossa viagem a Gramado - foto 07" loading="lazy"><span class="numero">07</span></div>
+            <div class="foto-card"><img src="gramados/08.jpeg" alt="Nossa viagem a Gramado - foto 08" loading="lazy"><span class="numero">08</span></div>
+            <div class="foto-card"><img src="gramados/09.jpeg" alt="Nossa viagem a Gramado - foto 09" loading="lazy"><span class="numero">09</span></div>
+            <div class="foto-card"><img src="gramados/10.jpeg" alt="Nossa viagem a Gramado - foto 10" loading="lazy"><span class="numero">10</span></div>
+            <div class="foto-card"><img src="gramados/11.jpeg" alt="Nossa viagem a Gramado - foto 11" loading="lazy"><span class="numero">11</span></div>
+            <div class="foto-card"><img src="gramados/12.jpeg" alt="Nossa viagem a Gramado - foto 12" loading="lazy"><span class="numero">12</span></div>
+            <div class="foto-card"><img src="gramados/13.jpeg" alt="Nossa viagem a Gramado - foto 13" loading="lazy"><span class="numero">13</span></div>
+            <div class="foto-card"><img src="gramados/14.jpeg" alt="Nossa viagem a Gramado - foto 14" loading="lazy"><span class="numero">14</span></div>
+            <div class="foto-card"><img src="gramados/15.jpeg" alt="Nossa viagem a Gramado - foto 15" loading="lazy"><span class="numero">15</span></div>
+            <div class="foto-card"><img src="gramados/16.jpeg" alt="Nossa viagem a Gramado - foto 16" loading="lazy"><span class="numero">16</span></div>
+            <div class="foto-card"><img src="gramados/17.jpeg" alt="Nossa viagem a Gramado - foto 17" loading="lazy"><span class="numero">17</span></div>
+            <div class="foto-card"><img src="gramados/18.jpeg" alt="Nossa viagem a Gramado - foto 18" loading="lazy"><span class="numero">18</span></div>
+            <div class="foto-card"><img src="gramados/19.jpeg" alt="Nossa viagem a Gramado - foto 19" loading="lazy"><span class="numero">19</span></div>
+            <div class="foto-card"><img src="gramados/20.jpeg" alt="Nossa viagem a Gramado - foto 20" loading="lazy"><span class="numero">20</span></div>
+            <div class="foto-card"><img src="gramados/21.jpeg" alt="Nossa viagem a Gramado - foto 21" loading="lazy"><span class="numero">21</span></div>
+            <div class="foto-card"><img src="gramados/22.jpeg" alt="Nossa viagem a Gramado - foto 22" loading="lazy"><span class="numero">22</span></div>
+            <div class="foto-card"><img src="gramados/23.jpeg" alt="Nossa viagem a Gramado - foto 23" loading="lazy"><span class="numero">23</span></div>
+        </section>
+    </main>
+
+    <section class="frase-final">
+        <p>“O lugar era lindo, mas a minha parte favorita da viagem continuou sendo você.”</p>
+        <span>Gramado virou mais uma página bonita da nossa história. 💖</span>
+    </section>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <button class="lightbox-fechar" id="fecharLightbox" aria-label="Fechar">✕</button>
+        <button class="lightbox-nav lightbox-prev" id="fotoAnterior" aria-label="Foto anterior">‹</button>
+        <img id="lightboxImg" src="" alt="Foto ampliada da nossa viagem a Gramado">
+        <button class="lightbox-nav lightbox-next" id="proximaFoto" aria-label="Próxima foto">›</button>
+        <div class="lightbox-contador" id="lightboxContador"></div>
+    </div>
+
+    <script>
+        const fotos = Array.from(document.querySelectorAll('.foto-card img'));
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const contador = document.getElementById('lightboxContador');
+        const fechar = document.getElementById('fecharLightbox');
+        const anterior = document.getElementById('fotoAnterior');
+        const proxima = document.getElementById('proximaFoto');
+        let fotoAtual = 0;
+
+        function mostrarFoto(indice) {
+            fotoAtual = (indice + fotos.length) % fotos.length;
+            lightboxImg.src = fotos[fotoAtual].src;
+            contador.textContent = `${fotoAtual + 1} / ${fotos.length}`;
+        }
+
+        function abrirLightbox(indice) {
+            mostrarFoto(indice);
+            lightbox.classList.add('show');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharLightbox() {
+            lightbox.classList.remove('show');
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        fotos.forEach((foto, indice) => {
+            foto.addEventListener('click', () => abrirLightbox(indice));
+        });
+
+        fechar.addEventListener('click', fecharLightbox);
+        anterior.addEventListener('click', () => mostrarFoto(fotoAtual - 1));
+        proxima.addEventListener('click', () => mostrarFoto(fotoAtual + 1));
+
+        lightbox.addEventListener('click', (event) => {
+            if (event.target === lightbox) fecharLightbox();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (!lightbox.classList.contains('show')) return;
+            if (event.key === 'Escape') fecharLightbox();
+            if (event.key === 'ArrowLeft') mostrarFoto(fotoAtual - 1);
+            if (event.key === 'ArrowRight') mostrarFoto(fotoAtual + 1);
+        });
+    </script>
+</body>
+</html>
