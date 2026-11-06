@@ -1,693 +1,1396 @@
 /* ===============================
+
    style.css (COMPLETO)
+
 ================================ */
+
+
 
 :root {
+
     --primary-color: #ff4d6d;
+
     --bg-color: #3886a3f0;
+
     --text-color: #590d22;
+
 }
+
+
 
 body {
+
     margin: 0;
+
     font-family: 'Montserrat', sans-serif;
+
     background-color: var(--bg-color);
+
     color: var(--text-color);
+
     position: relative;
+
     overflow-x: hidden;
+
 }
 
+
+
 /* ===============================
+
    MODO UNIVERSO (Canvas + efeitos)
+
 ================================ */
+
 #universeCanvas{
-    position: fixed;
-    inset: 0;
+
+    position: fixed; 
+
+    inset: 0; 
+
     width: 100%;
+
     height: 100%;
+
     z-index: -2;
+
     pointer-events: none;
+
     opacity: 0;
+
     transition: opacity 600ms ease;
+
 }
+
+
 
 body.universe-on #universeCanvas{
+
     opacity: 1;
+
 }
+
+
 
 body.universe-on{
+
     background-color: #0b1024;
+
 }
+
+
 
 body.universe-on header,
+
 body.universe-on .carta-box,
+
 body.universe-on .moment-card{
+
     box-shadow: 0 10px 22px rgba(0,0,0,0.22);
+
 }
 
+
+
 /* ===============================
+
    Mensagem do Universo (ofusca fundo)
+
 ================================ */
+
 .universe-message{
+
     position: fixed;
+
     inset: 0;
+
     display: none;
+
     align-items: center;
+
     justify-content: center;
+
     z-index: 9998;
+
     pointer-events: none;
+
     background: rgba(0,0,0,0.0);
+
     opacity: 0;
+
 }
+
+
 
 .universe-message.show{
+
     display: flex;
+
     animation: universeFade 3000ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+
 }
+
+
 
 .universe-message-box{
+
     width: min(620px, 90vw);
+
     padding: 18px 16px;
+
     border-radius: 18px;
+
     text-align: center;
+
     background: rgba(255,255,255,0.10);
+
     border: 1px solid rgba(255,255,255,0.22);
+
     backdrop-filter: blur(10px);
+
     box-shadow: 0 16px 32px rgba(0,0,0,0.35);
+
     transform: translateY(6px) scale(0.98);
+
     opacity: 0;
+
     animation: universePop 3000ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+
 }
+
+
 
 .universe-message-title{
+
     font-size: 1.6rem;
+
     margin-bottom: 6px;
+
 }
+
+
 
 .universe-message-text{
+
     color: rgba(255,255,255,0.96);
+
     font-family: 'Dancing Script', cursive;
+
     font-size: 2.05rem;
+
     line-height: 1.15;
+
 }
+
+
 
 @keyframes universeFade{
+
     0%   { opacity: 0; background: rgba(0,0,0,0.00); }
+
     12%  { opacity: 1; background: rgba(0,0,0,0.62); }  
+
     68%  { opacity: 1; background: rgba(0,0,0,0.62); }  
+
     100% { opacity: 0; background: rgba(0,0,0,0.00); }  
+
 }
+
+
 
 @keyframes universePop{
+
     0%   { opacity: 0; transform: translateY(12px) scale(0.96); }
+
     12%  { opacity: 1; transform: translateY(0px)  scale(1.00); } 
+
     68%  { opacity: 1; transform: translateY(0px)  scale(1.00); } 
+
     100% { opacity: 0; transform: translateY(-8px) scale(0.99); } 
+
 }
+
+
 
 /* Header */
+
 header {
+
     padding: 30px 20px;
+
     background: linear-gradient(135deg, #0d96bc, #9d85ff);
+
     color: white;
+
     text-align: center;
+
     position: relative;
+
     z-index: 1;
+
 }
+
+
 
 body.universe-on header{
+
     background: linear-gradient(135deg, rgba(20, 40, 120, 0.85), rgba(120, 60, 180, 0.85));
+
     backdrop-filter: blur(6px);
+
 }
+
+
 
 h1 {
+
     font-family: 'Dancing Script', cursive;
+
     font-size: 2.5rem;
+
 }
+
+
 
 .universe-header-actions{
+
     margin-top: 12px;
+
     display: inline-flex;
+
     gap: 10px;
+
     align-items: center;
+
     justify-content: center;
+
     flex-wrap: wrap; 
+
 }
+
+
 
 .universe-btn{
+
     background: rgba(255,255,255,0.14);
+
     border: 1px solid rgba(255,255,255,0.26);
+
     color: white;
+
     padding: 10px 14px;
+
     border-radius: 999px;
+
     cursor: pointer;
+
     font-weight: 500;
+
 }
+
+
 
 .universe-btn:hover{
+
     background: rgba(255,255,255,0.20);
+
 }
+
+
 
 .universe-status{
+
     font-size: 0.95rem;
+
     opacity: 0.9;
+
 }
+
+
 
 /* Dedicação */
+
 .dedication {
+
     text-align: center;
+
     font-family: 'Dancing Script', cursive;
+
     font-size: 1.3rem;
+
     margin: 30px 20px;
+
     position: relative;
+
     z-index: 1;
+
     color: rgba(255,255,255,0.95);
+
 }
+
+
 
 /* Divider */
+
 .divider {
+
     text-align: center;
+
     font-size: 1.5rem;
+
     color: var(--primary-color);
+
     position: relative;
+
     z-index: 1;
+
     margin: 20px 0;
+
 }
 
+
+
 /* ===============================
+
    Carta que se escreve sozinha
+
 ================================ */
+
 .carta-auto{
+
     max-width: 900px;
+
     margin: 22px auto 10px;
+
     padding: 0 20px;
+
     text-align: center;
+
     position: relative;
+
     z-index: 1;
+
 }
+
+
 
 .carta-auto h2{
+
     font-family: 'Dancing Script', cursive;
+
     font-size: 2rem;
+
     color: white;
+
     margin: 10px 0 12px;
+
 }
+
+
 
 .carta-box{
+
     background: rgba(255,255,255,0.92);
+
     border-radius: 16px;
+
     padding: 16px 16px;
+
     box-shadow: 0 8px 16px rgba(0,0,0,0.10);
+
     border: 2px solid rgba(255,77,109,0.30);
+
     text-align: left;
+
     position: relative;
+
 }
+
+
 
 .carta-texto{
+
     margin: 0;
+
     white-space: pre-wrap;
+
     line-height: 1.55;
+
     font-size: 1rem;
+
     color: #590d22;
+
     min-height: 110px;
+
 }
+
+
 
 .cursor{
+
     display: inline-block;
+
     width: 10px;
+
     height: 18px;
+
     background: rgba(255,77,109,0.85);
+
     margin-left: 6px;
+
     border-radius: 3px;
+
     animation: blink 0.85s infinite;
+
     position: absolute;
+
     bottom: 16px;
+
     right: 16px;
+
 }
+
+
 
 @keyframes blink{
+
     0%, 50% { opacity: 1; }
+
     51%, 100% { opacity: 0; }
+
 }
+
+
 
 .carta-actions, .replay-btn{
+
     margin-top: 12px;
+
     display: flex;
+
     justify-content: center;
+
     gap: 10px;
+
 }
+
+
 
 .replay-btn{
+
     background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+
     border: none;
+
     color: white;
+
     padding: 10px 18px;
+
     border-radius: 18px;
+
     cursor: pointer;
+
     font-weight: bold;
+
     display: inline-block;
+
 }
 
+
+
 /* ===============================
+
    Gerador de Motivos
+
 ================================ */
+
 .motivos-section {
+
     max-width: 900px;
+
     margin: 20px auto;
+
     padding: 0 20px;
+
     text-align: center;
+
     position: relative;
+
     z-index: 1;
+
 }
+
+
 
 .motivos-section h2 {
+
     font-family: 'Dancing Script', cursive;
+
     font-size: 2rem;
+
     color: white;
+
     margin-bottom: 5px;
+
 }
+
+
 
 .motivo-box {
+
     margin-top: 20px;
+
     min-height: 60px;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
 }
+
+
 
 .motivo-display {
+
     font-size: 1.3rem;
+
     color: white;
+
     font-family: 'Dancing Script', cursive;
+
     margin: 0;
+
     opacity: 0;
+
     transition: opacity 0.5s ease;
+
     text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+
 }
 
+
+
 /* ===============================
+
    Cupons Românticos
+
 ================================ */
+
 .cupons-section {
+
     max-width: 900px;
+
     margin: 20px auto;
+
     padding: 0 20px;
+
     text-align: center;
+
     position: relative;
+
     z-index: 1;
+
 }
+
+
 
 .cupons-section h2 {
+
     font-family: 'Dancing Script', cursive;
+
     font-size: 2rem;
+
     color: white;
+
     margin-bottom: 5px;
+
 }
+
+
 
 .cupons-grid {
+
     display: grid;
+
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
     gap: 15px;
+
     margin-top: 20px;
+
 }
+
+
 
 .cupom-card {
+
     background: transparent;
+
     height: 120px;
+
     perspective: 1000px;
+
     cursor: pointer;
+
 }
+
+
 
 .cupom-inner {
+
     position: relative;
+
     width: 100%;
+
     height: 100%;
+
     text-align: center;
+
     transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+
     transform-style: preserve-3d;
+
     box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+
     border-radius: 12px;
+
 }
+
+
 
 .cupom-card.flipped .cupom-inner {
+
     transform: rotateY(180deg);
+
 }
+
+
 
 .cupom-front, .cupom-back {
+
     position: absolute;
+
     width: 100%;
+
     height: 100%;
+
     -webkit-backface-visibility: hidden;
+
     backface-visibility: hidden;
+
     border-radius: 12px;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
     padding: 15px;
+
     box-sizing: border-box;
+
 }
+
+
 
 .cupom-front {
+
     background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+
     color: white;
+
     font-weight: bold;
+
     border: 2px dashed rgba(255, 255, 255, 0.6);
+
 }
+
+
 
 .cupom-back {
+
     background: white;
+
     color: var(--text-color);
+
     transform: rotateY(180deg);
+
     border: 2px solid var(--primary-color);
+
     font-size: 1rem;
+
     font-weight: bold;
+
 }
 
+
+
 /* ===============================
+
    Modo Cinema
+
 ================================ */
+
 .cinema-section{
+
     max-width: 900px;
+
     margin: 14px auto 6px;
+
     padding: 0 20px;
+
     text-align: center;
+
     position: relative;
+
     z-index: 1;
+
 }
+
+
 
 .cinema-btn{
+
     background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+
     border: none;
+
     color: white;
+
     padding: 12px 18px;
+
     border-radius: 22px;
+
     cursor: pointer;
+
 }
+
+
 
 .cinema-hint{
+
     margin: 8px 0 0;
+
     color: rgba(255,255,255,0.9);
+
     font-size: 0.95rem;
+
 }
+
+
 
 /* Música */
+
 .music-container {
+
     display: flex;
+
     justify-content: center;
+
     margin: 20px 0;
+
     position: relative;
+
     z-index: 1;
+
 }
+
+
 
 #playMusic {
+
     background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+
     border: none;
+
     color: white;
+
     padding: 12px 22px;
+
     border-radius: 25px;
+
     cursor: pointer;
+
 }
+
+
 
 #playMusic.hidden {
+
     display: none;
+
 }
+
+
 
 /* Conteúdo */
+
 .container {
+
     max-width: 900px;
+
     margin: auto;
+
     padding: 0 20px;
+
     position: relative;
+
     z-index: 1;
+
 }
+
+
 
 .video-grid {
+
     display: grid;
+
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
     gap: 25px;
+
     justify-items: center;
+
 }
+
+
 
 /* Cards */
+
 .moment-card {
+
     background: white;
+
     border-radius: 12px;
+
     overflow: hidden;
+
     width: 100%;
+
     max-width: 320px;
+
     box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+
     position: relative;
+
 }
+
+
 
 .video-wrapper video,
+
 .video-wrapper img {
+
     width: 100%;
+
     aspect-ratio: 4 / 5;
+
     object-fit: cover;
+
 }
+
+
 
 /* Texto */
+
 .moment-info {
+
     padding: 12px;
+
     text-align: center;
+
     font-style: italic;
+
 }
+
+
 
 /* Footer */
+
 footer {
+
     text-align: center;
+
     padding: 40px 20px;
+
     position: relative;
+
     z-index: 1;
+
 }
+
+
 
 #counter {
+
     font-weight: bold;
+
     color: var(--primary-color);
+
 }
 
+
+
 /* ===============================
+
    Overlay do Modo Cinema
+
 ================================ */
+
 .cinema-overlay{
+
     position: fixed;
+
     inset: 0;
+
     background: rgba(0,0,0,0.78);
+
     display: none;
+
     align-items: center;
+
     justify-content: center;
+
     padding: 18px;
+
     z-index: 9999;
+
 }
+
+
 
 .cinema-overlay.show{
+
     display: flex;
+
 }
+
+
 
 .cinema-close{
+
     position: absolute;
+
     top: 16px;
+
     right: 16px;
+
     border: none;
+
     background: rgba(255,255,255,0.12);
+
     color: white;
+
     width: 42px;
+
     height: 42px;
+
     border-radius: 50%;
+
     cursor: pointer;
+
     font-size: 18px;
+
 }
+
+
 
 .cinema-stage{
+
     width: 100%;
+
     max-width: 520px;
+
     text-align: center;
+
 }
+
+
 
 .cinema-media{
+
     width: 100%;
+
     border-radius: 18px;
+
     overflow: hidden;
+
     box-shadow: 0 14px 28px rgba(0,0,0,0.28);
+
     background: rgba(255,255,255,0.08);
+
     opacity: 0;
+
     transform: scale(0.99);
+
 }
+
+
 
 .cinema-media.fade-in{
+
     opacity: 1;
+
     transform: scale(1);
+
     transition: opacity 280ms ease, transform 280ms ease;
+
 }
+
+
 
 .cinema-img,
+
 .cinema-video{
+
     width: 100%;
+
     aspect-ratio: 4 / 5;
+
     object-fit: cover;
+
     display: block;
+
 }
+
+
 
 .cinema-caption{
+
     margin-top: 12px;
+
     color: white;
+
     font-style: italic;
+
     padding: 0 10px;
+
 }
+
+
 
 .cinema-controls{
+
     display: flex;
+
     justify-content: center;
+
     gap: 10px;
+
     margin-top: 14px;
+
 }
+
+
 
 .cinema-ctrl{
+
     border: none;
+
     background: rgba(255,255,255,0.12);
+
     color: white;
+
     padding: 10px 14px;
+
     border-radius: 14px;
+
     cursor: pointer;
+
     font-size: 16px;
+
 }
+
+
 
 .cinema-progress{
+
     margin-top: 12px;
+
     width: 100%;
+
     height: 8px;
+
     background: rgba(255,255,255,0.12);
+
     border-radius: 999px;
+
     overflow: hidden;
+
 }
+
+
 
 .cinema-bar{
+
     height: 100%;
+
     width: 0%;
+
     background: rgba(255,77,109,0.9);
+
 }
 
+
+
 /* ===============================
+
    Botão de Pânico (Dia Ruim)
+
 ================================ */
+
 .dia-ruim-btn {
+
     background: linear-gradient(135deg, #5b7c99, #364f6b);
+
     border: none;
+
     color: white;
+
     padding: 12px 24px;
+
     border-radius: 25px;
+
     cursor: pointer;
+
     font-family: 'Montserrat', sans-serif;
+
     font-weight: bold;
+
     font-size: 1rem;
+
     transition: transform 0.2s, box-shadow 0.2s;
+
 }
+
+
 
 .dia-ruim-btn:hover {
+
     transform: scale(1.05);
+
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
 }
+
+
 
 .dia-ruim-overlay {
+
     position: fixed;
+
     inset: 0;
+
     background: linear-gradient(135deg, #1f2833, #0b0c10);
+
     display: none;
+
     align-items: center;
+
     justify-content: center;
+
     padding: 20px;
+
     z-index: 10000;
+
     color: #c5c6c7;
+
     text-align: center;
+
     opacity: 0;
+
     transition: opacity 0.5s ease;
+
 }
+
+
 
 .dia-ruim-overlay.show {
+
     display: flex;
+
     opacity: 1;
+
 }
+
+
 
 .dia-ruim-content {
+
     max-width: 500px;
+
     background: rgba(255, 255, 255, 0.05);
+
     padding: 40px 30px;
+
     border-radius: 20px;
+
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
     border: 1px solid rgba(255,255,255,0.1);
+
 }
+
+
 
 .dia-ruim-content h2 {
+
     color: #66fcf1;
+
     font-family: 'Dancing Script', cursive;
+
     font-size: 2.5rem;
+
     margin-bottom: 15px;
+
 }
+
+
 
 .dia-ruim-content p {
+
     font-size: 1.1rem;
+
     line-height: 1.6;
+
     color: #e0e2e4;
+
 }
+
+
 
 .pulsing-heart {
+
     font-size: 4rem;
+
     animation: pulse 1.5s infinite;
+
     margin-bottom: 20px;
+
 }
+
+
 
 @keyframes pulse {
+
     0% { transform: scale(0.9); }
+
     50% { transform: scale(1.1); }
+
     100% { transform: scale(0.9); }
+
 }
+
+
 
 /* ===============================
+
    Corda Azul Dinâmica e Nó Infinito
+
 ================================ */
+
 .no-inner {
+
     opacity: 0;
+
     transform: scale(0.5);
+
     transition: opacity 0.6s ease, transform 0.6s ease;
+
 }
+
+
 
 .no-amarrado.show .no-inner {
+
     opacity: 1;
+
     transform: scale(1);
+
 }
+
+
 
 /* Mensagem ao final do fio */
+
 .akai-ito-mensagem-final {
+
     text-align: center;
+
     padding: 60px 20px 80px 20px; /* Mais espaço para o nó no final */
+
     position: relative;
+
     display: flex;
+
     justify-content: center;
+
     z-index: 1;
+
 }
+
+
 
 #akaiItoMsgText {
+
     display: inline-block;
+
     max-width: 80%;
+
     font-family: 'Dancing Script', cursive;
+
     font-size: 2.2rem;
+
     color: #00d2ff;
+
     margin: 0;
+
     padding: 20px 30px; /* Espaço pro laço passar sem bater na letra */
+
     opacity: 0;
+
     transform: translateY(20px);
+
     transition: opacity 1s ease, transform 1s ease;
+
     text-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+
     z-index: 12; /* Acima da corda */
+
 }
+
+
 
 #akaiItoMsgText.show {
+
     opacity: 1;
+
     transform: translateY(0);
+
 }
 
+
+
 /* Ajuste no modo Universo para manter a leitura da corda azul */
+
 body.universe-on #akaiItoMsgText {
+
     color: #4facfe;
+
     text-shadow: 0 0 10px rgba(79, 172, 254, 0.8);
+
 }
+
+/* ADIÇÃO: contagem regressiva do casamento */
+.casamento-countdown{position:relative;z-index:1;max-width:850px;margin:28px auto;padding:26px 18px;text-align:center;color:#fff;border:1px solid rgba(255,255,255,.42);border-radius:24px;background:linear-gradient(135deg,rgba(81,26,82,.87),rgba(198,70,116,.83));box-shadow:0 15px 40px rgba(41,16,56,.2);box-sizing:border-box}
+.casamento-countdown h2{font-family:'Dancing Script',cursive;font-size:clamp(1.8rem,5vw,2.8rem);margin:8px 0}
+.casamento-countdown p{margin:8px 0 22px}.casamento-eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.18em}
+.casamento-tempo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:580px;margin:0 auto 20px}
+.casamento-tempo>div{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.23);padding:15px 5px;border-radius:15px}
+.casamento-tempo strong{display:block;font-size:clamp(1.5rem,5vw,2.5rem);font-variant-numeric:tabular-nums}
+.casamento-tempo span{display:block;font-size:.76rem;margin-top:5px}
+.casamento-jardim-link{display:inline-block;color:#672345;background:#fff3f6;padding:11px 18px;border-radius:30px;text-decoration:none;font-weight:700}
+@media(max-width:480px){.casamento-countdown{margin:18px 12px;padding:22px 12px}.casamento-tempo{gap:6px}.casamento-tempo>div{padding:12px 3px}.casamento-tempo span{font-size:.64rem}}

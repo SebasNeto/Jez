@@ -1,414 +1,842 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
+
 <head>
+
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Nossa História</title>
 
+
+
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css" />
+
 </head>
+
 <body>
 
+
+
 <!-- NOVA FUNCIONALIDADE: Corda Azul do Destino (Desenhada dinamicamente pelo JS) -->
+
 <svg id="blueRopeSvg" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 10;">
+
     <path id="blueRopePath" fill="none" stroke="#00d2ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.8));" />
+
 </svg>
+
 <div id="noAmarradoLateral" class="no-amarrado" style="position: absolute; z-index: 11; transform: translate(-50%, -15%); pointer-events: none;">
+
     <div class="no-inner">
+
         <!-- Nó Infinito em Azul Brilhante -->
+
         <svg viewBox="0 0 24 24" width="45" height="45" stroke="#00d2ff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 6px rgba(0,210,255,0.9));">
+
             <path d="M12 9C8 5 3 8 5 14C7 20 11 14 12 12C13 14 17 20 19 14C21 8 16 5 12 9Z" />
+
             <path d="M10 14L7 22" />
+
             <path d="M14 14L17 22" />
+
         </svg>
+
     </div>
+
 </div>
+
+
 
 <canvas id="universeCanvas" aria-hidden="true"></canvas>
 
+
+
 <div class="universe-message" id="universeMessage" aria-hidden="true">
+
     <div class="universe-message-box">
+
         <div class="universe-message-title">🌌</div>
+
         <div class="universe-message-text">Entre bilhões de pessoas, eu encontrei você</div>
+
     </div>
+
 </div>
+
+
 
 <header>
+
     <h1 id="tituloSite">Nossos Momentos</h1>
+
     <p>Cada segundo ao seu lado é um presente.</p>
 
+
+
     <div class="universe-header-actions">
+
         <button id="btnUniverse" class="universe-btn">🌌 Modo Universo</button>
+
         <span class="universe-status" id="universeStatus">desligado</span>
+
         <a href="ceu.html" target="_blank" class="universe-btn" style="text-decoration: none; margin-left: 8px;">✨ Nosso Universo</a>
+
         <a href="votos.html" target="_blank" class="universe-btn" style="text-decoration: none; margin-left: 8px;">📖 Livro de Votos</a>
+
+        <a href="jardim.html" class="universe-btn" style="text-decoration: none; margin-left: 8px;">🌹 Nosso Jardim</a>
         <a href="gramado.html" class="universe-btn" style="text-decoration: none; margin-left: 8px;">🏔️ Nossa Viagem a Gramado</a>
+
     </div>
+
 </header>
+<!-- NOVO: Contagem regressiva para o casamento -->
+<section class="casamento-countdown" aria-label="Contagem regressiva para nosso casamento">
+  <span class="casamento-eyebrow">💍 Nosso próximo capítulo</span>
+  <h2>Falta pouco para o nosso para sempre</h2>
+  <p>20 de janeiro de 2027</p>
+  <div class="casamento-tempo" id="casamentoTempo" aria-live="off">
+    <div><strong id="casamentoDias">--</strong><span>dias</span></div>
+    <div><strong id="casamentoHoras">--</strong><span>horas</span></div>
+    <div><strong id="casamentoMinutos">--</strong><span>minutos</span></div>
+    <div><strong id="casamentoSegundos">--</strong><span>segundos</span></div>
+  </div>
+  <a class="casamento-jardim-link" href="jardim.html">🌷 Visitar nosso jardim de flores</a>
+</section>
+
+
+
 
 <p class="dedication">
+
     Para a mulher mais linda do mundo.
+
 </p>
 
+
+
 <div class="divider">❦</div>
+
+
 
 <section class="carta-auto">
+
     <h2>💌 Uma cartinha pra você</h2>
 
+
+
     <div class="carta-box">
+
         <p id="cartaTexto" class="carta-texto"></p>
+
         <span class="cursor" aria-hidden="true"></span>
+
     </div>
+
+
 
     <div class="carta-actions">
+
         <button id="replayCarta" class="replay-btn">🔁 Reescrever</button>
+
     </div>
+
 </section>
 
+
+
 <div class="divider">❦</div>
+
+
 
 <section class="motivos-section">
+
     <h2>✨ Por que eu te amo?</h2>
+
     <p class="cinema-hint">Clique no botão abaixo para descobrir...</p>
+
     <button id="btnMotivo" class="replay-btn" style="margin-top: 10px;">🔮 Me dê um motivo</button>
+
     <div class="motivo-box">
+
         <p id="motivoTexto" class="motivo-display"></p>
+
     </div>
+
 </section>
 
+
+
 <div class="divider">❦</div>
+
+
 
 <section class="cupons-section">
+
     <h2>🎁 Seus Cupons Especiais</h2>
+
     <p class="cinema-hint">Escolha com sabedoria! Clique em um cartão para revelar seu prêmio.</p>
-    
+
+
+
     <div class="cupons-grid">
+
         <div class="cupom-card">
+
             <div class="cupom-inner">
+
                 <div class="cupom-front">❓ Cupom Surpresa</div>
+
                 <div class="cupom-back">Vale uma massagem relaxante com ou sem surpresa💆‍♀️</div>
+
             </div>
+
         </div>
+
         <div class="cupom-card">
+
             <div class="cupom-inner">
+
                 <div class="cupom-front">❓ Cupom Surpresa</div>
+
                 <div class="cupom-back">Você pode pedir o que quiser. A resposta é sim! 🍧</div>
+
             </div>
+
         </div>
+
         <div class="cupom-card">
+
             <div class="cupom-inner">
+
                 <div class="cupom-front">❓ Cupom Surpresa</div>
+
                 <div class="cupom-back">Vale um jantar romântico por minha conta 🍷</div>
+
             </div>
+
         </div>
+
         <div class="cupom-card">
+
             <div class="cupom-inner">
+
                 <div class="cupom-front">❓ Cupom Surpresa</div>
+
                 <div class="cupom-back">Eu vou cozinhar para você 🌆</div>
+
             </div>
+
         </div>
+
     </div>
+
 </section>
 
+
+
 <div class="divider">❦</div>
+
+
 
 <section class="cinema-section">
+
     <button id="btnCinema" class="cinema-btn">🎬 Modo Cinema (Replay)</button>
+
     <p class="cinema-hint">Reviva nossos momentos💖</p>
+
 </section>
 
+
+
 <div class="music-container">
+
     <button id="playMusic">💖 Toque para ouvir nossa música</button>
+
 </div>
+
+
 
 <main class="container">
+
     <div class="video-grid">
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_1.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 1</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_2.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 2</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_3.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 3</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_4.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 4</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_5.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 5</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_6.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 6</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_7.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 7</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_8.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 8</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_9.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 9</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_10.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 10</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_11.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 11</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_12.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 12</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_13.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 13</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_14.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 14</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_15.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 15</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_16.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 16</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_17.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 17</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_18.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 18</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_19.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 19</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_20.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 20</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <video controls>
+
                     <source src="video_21.mp4" type="video/mp4">
+
                 </video>
+
             </div>
+
             <div class="moment-info">Moment 21</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <img src="image-1.jpeg" alt="">
+
             </div>
+
             <div class="moment-info">Moment 22</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <img src="image-2.jpeg" alt="">
+
             </div>
+
             <div class="moment-info">Moment 23</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <img src="image-3.jpeg" alt="">
+
             </div>
+
             <div class="moment-info">Moment 24</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <img src="image-4.jpeg" alt="">
+
             </div>
+
             <div class="moment-info">Moment 25</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <img src="image-5.jpeg" alt="">
+
             </div>
+
             <div class="moment-info">Moment 26</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <img src="image-6.jpeg" alt="">
+
             </div>
+
             <div class="moment-info">Moment 27</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <img src="image-7.jpeg" alt="">
+
             </div>
+
             <div class="moment-info">Moment 28</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <img src="image-8.jpeg" alt="">
+
             </div>
+
             <div class="moment-info">Moment 29</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <img src="image-9.jpeg" alt="">
+
             </div>
+
             <div class="moment-info">Moment 30</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <img src="image-10.jpeg" alt="">
+
             </div>
+
             <div class="moment-info">Moment 31</div>
+
         </div>
+
         <div class="moment-card fixed">
+
             <div class="video-wrapper">
+
                 <img src="image-11.jpeg" alt="">
+
             </div>
+
             <div class="moment-info">Moment 32</div>
+
         </div>
+
     </div>
+
 </main>
 
+
+
 <div style="text-align: center; margin: 50px 20px;">
+
     <button id="btnDiaRuim" class="dia-ruim-btn">🌧️ Tive um dia ruim...</button>
+
 </div>
+
+
 
 <div class="divider">❦</div>
 
+
+
 <!-- Mensagem Final da Corda e do Nó -->
+
 <section class="akai-ito-mensagem-final" id="akaiItoMsgLateral">
+
     <p id="akaiItoMsgText">Onde quer que a gente vá, o meu destino sempre terminará em você.</p>
+
 </section>
 
+
+
 <footer>
+
     <div id="counter">Carregando momentos...</div>
+
     <p class="footer-text">Com amor, para Jezz 💖</p>
+
 </footer>
 
+
+
 <audio id="bgMusic" loop>
+
     <source src="music.mp3" type="audio/mp3">
+
 </audio>
 
+
+
 <div class="cinema-overlay" id="cinemaOverlay" aria-hidden="true">
+
     <button class="cinema-close" id="cinemaClose" aria-label="Fechar">✕</button>
 
+
+
     <div class="cinema-stage">
+
         <div class="cinema-media" id="cinemaMedia"></div>
+
         <div class="cinema-caption" id="cinemaCaption">💖</div>
 
+
+
         <div class="cinema-controls">
+
             <button class="cinema-ctrl" id="cinemaPrev">⟵</button>
+
             <button class="cinema-ctrl" id="cinemaPlayPause">⏸</button>
+
             <button class="cinema-ctrl" id="cinemaNext">⟶</button>
+
         </div>
+
+
 
         <div class="cinema-progress">
+
             <div class="cinema-bar" id="cinemaBar"></div>
+
         </div>
+
     </div>
+
 </div>
+
+
 
 <div class="dia-ruim-overlay" id="diaRuimOverlay" aria-hidden="true">
+
     <button class="cinema-close" id="diaRuimClose" aria-label="Fechar">✕</button>
+
     <div class="dia-ruim-content">
+
         <div class="pulsing-heart">❤️</div>
+
         <h2>Respira fundo, amor...</h2>
+
         <p>Eu sei que hoje as coisas não foram tão fáceis, mas eu tô aqui com você. Mesmo de longe, sinta o meu abraço bem apertado. Você é incrível, forte, e amanhã é um novo dia. Eu te amo muito, Jezz. Não esqueça de quão forte você é.</p>
+
     </div>
+
 </div>
 
+
+
 <script src="script.js"></script>
+
 </body>
+
 </html>

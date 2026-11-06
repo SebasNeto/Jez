@@ -1,0 +1,1524 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nosso Jardim de Lembranças 🦋🌷</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --wine: #6d284e;
+            --ink: #52314b;
+            --pink: #f49cba;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Montserrat, sans-serif;
+            color: var(--ink);
+            background: linear-gradient(
+                180deg,
+                #fff0f6 0%,
+                #f9e9f3 42%,
+                #e5f4df 100%
+            );
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        header {
+            text-align: center;
+            padding: 38px 18px 22px;
+        }
+
+        .back {
+            display: inline-block;
+            text-decoration: none;
+            background: white;
+            color: var(--wine);
+            border: 1px solid #edbbd1;
+            padding: 11px 18px;
+            border-radius: 50px;
+            font-size: .88rem;
+            font-weight: 600;
+        }
+
+        h1, h2 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--wine);
+        }
+
+        h1 {
+            font-size: clamp(2.6rem, 7vw, 4.5rem);
+            margin: 24px 0 8px;
+        }
+
+        header p {
+            max-width: 650px;
+            margin: auto;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           CONTADORES
+        ========================= */
+
+        .summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            max-width: 1000px;
+            margin: 24px auto;
+            padding: 0 16px;
+        }
+
+        .summary article {
+            flex: 1;
+            min-width: 145px;
+            max-width: 230px;
+            text-align: center;
+            padding: 19px 12px;
+            border-radius: 19px;
+            background: #ffffffc9;
+            box-shadow: 0 8px 25px #a66b8930;
+        }
+
+        .summary strong {
+            display: block;
+            font-size: 2rem;
+            color: var(--wine);
+        }
+
+        .summary span {
+            font-size: .8rem;
+        }
+
+        /* =========================
+           FILTROS
+        ========================= */
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 24px 12px;
+        }
+
+        .tabs button {
+            cursor: pointer;
+            border: 1px solid #e7adc6;
+            background: white;
+            color: var(--wine);
+            border-radius: 50px;
+            padding: 12px 18px;
+            font-weight: 600;
+            font-size: .85rem;
+        }
+
+        .tabs button.active {
+            background: var(--wine);
+            color: white;
+        }
+
+        /* =========================
+           JARDIM
+        ========================= */
+
+        .garden-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 18px 70px;
+        }
+
+        .garden-intro {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .garden-intro h2 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .garden-intro p {
+            line-height: 1.7;
+        }
+
+        .garden-scene {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            background: linear-gradient(
+                180deg,
+                #f9f0ff,
+                #f7fbf0
+            );
+            border: 1px solid #ffffffd1;
+            min-height: 340px;
+        }
+
+        .garden {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fill,
+                minmax(112px, 1fr)
+            );
+            gap: 26px 12px;
+            padding: 110px 16px 50px;
+            min-height: 340px;
+        }
+
+        .garden-scene::after {
+            content: '';
+            position: absolute;
+            z-index: 3;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 24px;
+            background: linear-gradient(
+                0deg,
+                #78b76a,
+                #9dce8c
+            );
+            pointer-events: none;
+        }
+
+        /* =========================
+           FLORES
+        ========================= */
+
+        .flower {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            min-height: 168px;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            transition: transform .25s;
+            animation: bloom .6s backwards;
+            animation-delay: var(--delay);
+        }
+
+        .flower:hover,
+        .flower:focus-visible {
+            transform: translateY(-9px) scale(1.07);
+        }
+
+        .flower:focus-visible {
+            outline: 2px solid var(--wine);
+            outline-offset: 4px;
+            border-radius: 12px;
+        }
+
+        .blossom {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            filter: drop-shadow(
+                0 4px 5px #8d47623d
+            );
+            animation: sway 4s ease-in-out infinite;
+            transform-origin: 50% 95%;
+        }
+
+        .petal {
+            position: absolute;
+            top: 3px;
+            left: 23px;
+            width: 25px;
+            height: 36px;
+            border-radius: 65% 65% 40% 40%;
+            background: var(--petal);
+            transform-origin: 50% 32px;
+            transform: rotate(var(--angle));
+            box-shadow: inset 0 0 8px #ffffff55;
+        }
+
+        .center {
+            position: absolute;
+            top: 26px;
+            left: 27px;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background: #ffe9a4;
+            border: 3px solid #e7b84c;
+        }
+
+        .engagement .center {
+            background: #ffe8f2;
+            border-color: #d8a5bf;
+        }
+
+        .stem {
+            height: 52px;
+            width: 5px;
+            background: linear-gradient(
+                90deg,
+                #4b9a57,
+                #8ccf73
+            );
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .stem::before,
+        .stem::after {
+            content: '';
+            position: absolute;
+            top: 18px;
+            width: 26px;
+            height: 14px;
+            background: #6bb977;
+            border-radius: 90% 0 90% 0;
+        }
+
+        .stem::before {
+            right: 3px;
+            transform: rotate(25deg);
+        }
+
+        .stem::after {
+            left: 3px;
+            transform: rotate(70deg) scaleX(-1);
+        }
+
+        .flower-label {
+            background: #fffef6;
+            padding: 7px 8px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px #477b5033;
+            font-size: .68rem;
+            color: var(--wine);
+            font-weight: 700;
+            text-align: center;
+            min-width: 98px;
+        }
+
+        /* =========================
+           BORBOLETAS
+        ========================= */
+
+        .butterfly-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .butterfly {
+            position: absolute;
+            left: var(--x);
+            top: var(--y);
+            width: 54px;
+            height: 54px;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            pointer-events: auto;
+            animation: butterflyFloat
+                var(--duration)
+                ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        .butterfly:hover {
+            animation-play-state: paused;
+        }
+
+        .butterfly:focus-visible {
+            outline: 2px solid var(--wine);
+            border-radius: 50%;
+        }
+
+        .butterfly-body {
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(
+                0 3px 5px #80517355
+            );
+        }
+
+        .wing {
+            position: absolute;
+            top: 8px;
+            width: 25px;
+            height: 31px;
+            background: var(--wing-color);
+            box-shadow: inset 0 0 9px #ffffff99;
+        }
+
+        .wing.left {
+            left: 2px;
+            border-radius: 80% 30% 70% 40%;
+            transform-origin: right center;
+            animation: flapLeft .38s ease-in-out infinite alternate;
+        }
+
+        .wing.right {
+            right: 2px;
+            border-radius: 30% 80% 40% 70%;
+            transform-origin: left center;
+            animation: flapRight .38s ease-in-out infinite alternate;
+        }
+
+        .wing.left::after,
+        .wing.right::after {
+            content: '';
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ffffffa8;
+            top: 10px;
+        }
+
+        .wing.left::after {
+            left: 7px;
+        }
+
+        .wing.right::after {
+            right: 7px;
+        }
+
+        .butterfly-center {
+            position: absolute;
+            z-index: 2;
+            top: 11px;
+            left: 25px;
+            width: 5px;
+            height: 27px;
+            border-radius: 50%;
+            background: #67445b;
+        }
+
+        .butterfly-center::before,
+        .butterfly-center::after {
+            content: '';
+            position: absolute;
+            top: -7px;
+            width: 2px;
+            height: 11px;
+            background: #67445b;
+        }
+
+        .butterfly-center::before {
+            left: -3px;
+            transform: rotate(-28deg);
+        }
+
+        .butterfly-center::after {
+            right: -3px;
+            transform: rotate(28deg);
+        }
+
+        .butterfly-hint {
+            text-align: center;
+            font-size: .85rem;
+            color: #865d7c;
+            margin: 18px auto;
+            line-height: 1.7;
+        }
+
+        .note {
+            text-align: center;
+            line-height: 1.9;
+            max-width: 720px;
+            margin: 28px auto;
+            color: #67495c;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: #251326a8;
+            padding: 18px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-card {
+            width: min(430px, 100%);
+            text-align: center;
+            background: #fff9fc;
+            border-radius: 25px;
+            padding: 28px 22px;
+            box-shadow: 0 18px 70px #180a2255;
+            animation: modalAppear .35s ease-out;
+        }
+
+        .modal-card .big-icon {
+            font-size: 4rem;
+        }
+
+        .modal-card h2 {
+            font-size: 2.4rem;
+            margin: 12px 0;
+        }
+
+        .modal-card p {
+            line-height: 1.8;
+        }
+
+        .modal-card button {
+            border: 0;
+            border-radius: 40px;
+            padding: 12px 25px;
+            background: var(--wine);
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        /* =========================
+           ANIMAÇÕES
+        ========================= */
+
+        @keyframes bloom {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                rotate: -4deg;
+            }
+
+            50% {
+                rotate: 4deg;
+            }
+        }
+
+        @keyframes butterflyFloat {
+            0%, 100% {
+                transform: translate(0, 0) rotate(-8deg);
+            }
+
+            25% {
+                transform: translate(
+                    var(--move-x),
+                    -24px
+                ) rotate(8deg);
+            }
+
+            50% {
+                transform: translate(
+                    calc(var(--move-x) * -0.5),
+                    12px
+                ) rotate(-5deg);
+            }
+
+            75% {
+                transform: translate(
+                    calc(var(--move-x) * 0.5),
+                    -18px
+                ) rotate(10deg);
+            }
+        }
+
+        @keyframes flapLeft {
+            from {
+                transform: rotateY(15deg) rotate(-8deg);
+            }
+
+            to {
+                transform: rotateY(70deg) rotate(-8deg);
+            }
+        }
+
+        @keyframes flapRight {
+            from {
+                transform: rotateY(-15deg) rotate(8deg);
+            }
+
+            to {
+                transform: rotateY(-70deg) rotate(8deg);
+            }
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: scale(.85);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .flower,
+            .blossom,
+            .butterfly,
+            .wing,
+            .modal-card {
+                animation: none !important;
+            }
+        }
+
+        /* =========================
+           CELULAR
+        ========================= */
+
+        @media (max-width: 500px) {
+            .garden {
+                grid-template-columns: repeat(
+                    3,
+                    minmax(0, 1fr)
+                );
+                gap: 16px 4px;
+                padding: 110px 5px 40px;
+            }
+
+            .blossom {
+                scale: .85;
+            }
+
+            .flower-label {
+                min-width: 0;
+                width: 100%;
+                font-size: .62rem;
+            }
+
+            .flower {
+                min-height: 155px;
+            }
+
+            .butterfly {
+                width: 46px;
+                height: 46px;
+            }
+
+            .summary article {
+                min-width: 125px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a class="back" href="index.html">
+            ← Voltar aos nossos momentos
+        </a>
+
+        <h1>🌷 Nosso Jardim</h1>
+
+        <p>
+            Cada flor representa uma lembrança do nosso amor.
+            E agora, pequenas borboletas carregam histórias
+            que jamais quero esquecer.
+        </p>
+    </header>
+
+    <!-- CONTADORES -->
+
+    <section class="summary" aria-label="Resumo do jardim">
+
+        <article>
+            <strong id="totalFlores">0</strong>
+            <span>flores no nosso jardim</span>
+        </article>
+
+        <article>
+            <strong id="totalNamoro">0</strong>
+            <span>flores de namoro 🌹</span>
+        </article>
+
+        <article>
+            <strong id="totalNoivado">0</strong>
+            <span>flores de noivado 💐</span>
+        </article>
+
+        <article>
+            <strong id="totalBorboletas">0</strong>
+            <span>borboletas das lembranças 🦋</span>
+        </article>
+
+    </section>
+
+    <!-- FILTROS -->
+
+    <nav class="tabs" aria-label="Filtrar flores">
+
+        <button
+            type="button"
+            class="active"
+            data-filter="todas"
+        >
+            🌷 Todas
+        </button>
+
+        <button
+            type="button"
+            data-filter="namoro"
+        >
+            🌹 Namoro
+        </button>
+
+        <button
+            type="button"
+            data-filter="noivado"
+        >
+            💐 Noivado
+        </button>
+
+    </nav>
+
+    <!-- JARDIM -->
+
+    <main class="garden-wrap">
+
+        <div class="garden-intro">
+
+            <h2 id="gardenTitle">
+                Cada flor conta uma história
+            </h2>
+
+            <p>
+                Toque nas flores para descobrir suas datas.
+                Toque nas borboletas para encontrar
+                pequenas lembranças escondidas.
+            </p>
+
+        </div>
+
+        <div class="garden-scene">
+
+            <div
+                class="butterfly-layer"
+                id="butterflyLayer"
+                aria-label="Borboletas das lembranças"
+            ></div>
+
+            <div class="garden" id="garden"></div>
+
+        </div>
+
+        <p class="butterfly-hint">
+            🦋 As borboletas guardam pedacinhos da nossa história.
+            Tente tocar em uma delas!
+        </p>
+
+        <p class="note">
+            As flores de namoro começaram em
+            20 de novembro de 2025 e florescem
+            todo dia 20 de cada mês.
+
+            As flores de noivado começaram em
+            10 de agosto de 2026 e florescem
+            todo dia 10 de cada mês.
+
+            E o nosso amor continua crescendo. ❤️
+        </p>
+
+    </main>
+
+    <!-- MODAL DAS LEMBRANÇAS -->
+
+    <div
+        class="modal"
+        id="memoryModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+        aria-hidden="true"
+    >
+
+        <div class="modal-card">
+
+            <div class="big-icon" id="modalIcon">
+                🦋
+            </div>
+
+            <h2 id="modalTitle">
+                Uma lembrança
+            </h2>
+
+            <p id="modalText"></p>
+
+            <button type="button" id="closeModal">
+                Guardar no coração 💗
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+        /* =========================================
+           DATAS DO RELACIONAMENTO
+        ========================================= */
+
+        const DATA_INICIO_NAMORO = new Date(2025, 10, 20);
+        const DATA_INICIO_NOIVADO = new Date(2026, 7, 10);
+
+        const DIA_NAMORO = 20;
+        const DIA_NOIVADO = 10;
+
+        /* =========================================
+           ELEMENTOS
+        ========================================= */
+
+        const garden = document.getElementById('garden');
+
+        const butterflyLayer = document.getElementById(
+            'butterflyLayer'
+        );
+
+        const modal = document.getElementById('memoryModal');
+
+        const flores = [];
+
+        let filtroAtual = 'todas';
+        let ultimaDataAtualizada = '';
+        let elementoAnteriorAoModal = null;
+
+        /* =========================================
+           DATAS
+        ========================================= */
+
+        function obterHoje() {
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+            return hoje;
+        }
+
+        function chaveData(data) {
+            return [
+                data.getFullYear(),
+                String(data.getMonth() + 1).padStart(2, '0'),
+                String(data.getDate()).padStart(2, '0')
+            ].join('-');
+        }
+
+        function formatar(data) {
+            return data.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        /* =========================================
+           FLORES AUTOMÁTICAS
+        ========================================= */
+
+        function adicionarFlor(tipo, ano, mes, dia, hoje) {
+            const data = new Date(ano, mes, dia);
+
+            const inicio = tipo === 'namoro'
+                ? DATA_INICIO_NAMORO
+                : DATA_INICIO_NOIVADO;
+
+            if (data < inicio || data > hoje) {
+                return;
+            }
+
+            flores.push({
+                tipo,
+                data
+            });
+        }
+
+        function gerarFloresAutomaticamente() {
+            const hoje = obterHoje();
+
+            flores.length = 0;
+
+            for (
+                let ano = DATA_INICIO_NAMORO.getFullYear();
+                ano <= hoje.getFullYear();
+                ano++
+            ) {
+                for (let mes = 0; mes < 12; mes++) {
+                    if (
+                        ano === hoje.getFullYear() &&
+                        mes > hoje.getMonth()
+                    ) {
+                        break;
+                    }
+
+                    adicionarFlor(
+                        'namoro',
+                        ano,
+                        mes,
+                        DIA_NAMORO,
+                        hoje
+                    );
+
+                    adicionarFlor(
+                        'noivado',
+                        ano,
+                        mes,
+                        DIA_NOIVADO,
+                        hoje
+                    );
+                }
+            }
+
+            flores.sort((a, b) =>
+                a.data - b.data ||
+                a.tipo.localeCompare(b.tipo)
+            );
+
+            ultimaDataAtualizada = chaveData(hoje);
+
+            atualizarContadores();
+            renderizarFlores(filtroAtual);
+            renderizarBorboletas();
+        }
+
+        function atualizarContadores() {
+            document.getElementById(
+                'totalFlores'
+            ).textContent = flores.length;
+
+            document.getElementById(
+                'totalNamoro'
+            ).textContent = flores.filter(
+                flor => flor.tipo === 'namoro'
+            ).length;
+
+            document.getElementById(
+                'totalNoivado'
+            ).textContent = flores.filter(
+                flor => flor.tipo === 'noivado'
+            ).length;
+        }
+
+        /* =========================================
+           MENSAGENS DAS FLORES
+        ========================================= */
+
+        const mensagensNamoro = [
+            'Uma flor para lembrar que escolher você foi uma das melhores coisas da minha vida.',
+            'Mesmo nos dias difíceis, meu carinho por você continua aqui.',
+            'Cada flor é uma forma diferente de dizer: eu te amo.',
+            'Com você, os dias comuns viram lembranças extraordinárias.'
+        ];
+
+        const mensagensNoivado = [
+            'Mais uma flor para a mulher com quem escolhi construir minha vida.',
+            'O nosso sim já começou a florescer.',
+            'Cada dia nos aproxima do nosso para sempre.',
+            'Que este jardim continue crescendo ao lado da nossa história.'
+        ];
+
+        /* =========================================
+           MODAL COMPARTILHADO
+        ========================================= */
+
+        function abrirModal(icone, titulo, mensagem) {
+            elementoAnteriorAoModal = document.activeElement;
+
+            document.getElementById(
+                'modalIcon'
+            ).textContent = icone;
+
+            document.getElementById(
+                'modalTitle'
+            ).textContent = titulo;
+
+            document.getElementById(
+                'modalText'
+            ).textContent = mensagem;
+
+            modal.classList.add('show');
+            modal.setAttribute('aria-hidden', 'false');
+
+            document.getElementById(
+                'closeModal'
+            ).focus();
+        }
+
+        function fecharModal() {
+            modal.classList.remove('show');
+            modal.setAttribute('aria-hidden', 'true');
+
+            if (
+                elementoAnteriorAoModal &&
+                elementoAnteriorAoModal.isConnected
+            ) {
+                elementoAnteriorAoModal.focus();
+            }
+        }
+
+        document.getElementById(
+            'closeModal'
+        ).addEventListener('click', fecharModal);
+
+        modal.addEventListener('click', e => {
+            if (e.target === modal) {
+                fecharModal();
+            }
+        });
+
+        document.addEventListener('keydown', e => {
+            if (
+                e.key === 'Escape' &&
+                modal.classList.contains('show')
+            ) {
+                fecharModal();
+            }
+        });
+
+        /* =========================================
+           ABRIR FLORES
+        ========================================= */
+
+        function abrirFlor(flor, indice) {
+            const namoro = flor.tipo === 'namoro';
+
+            const mensagens = namoro
+                ? mensagensNamoro
+                : mensagensNoivado;
+
+            const mensagem = mensagens[
+                indice % mensagens.length
+            ];
+
+            abrirModal(
+                namoro ? '🌹' : '💐',
+                namoro
+                    ? 'Uma flor de namoro'
+                    : 'Uma flor de noivado',
+                `Entregue em ${formatar(flor.data)}. ${mensagem}`
+            );
+        }
+
+        /* =========================================
+           RENDERIZAR FLORES
+        ========================================= */
+
+        function renderizarFlores(filtro = 'todas') {
+            filtroAtual = filtro;
+
+            garden.replaceChildren();
+
+            const visiveis = flores.filter(flor =>
+                filtro === 'todas' ||
+                flor.tipo === filtro
+            );
+
+            document.getElementById(
+                'gardenTitle'
+            ).textContent = filtro === 'namoro'
+                ? 'Nossas flores de namoro'
+                : filtro === 'noivado'
+                    ? 'Nossas flores de noivado'
+                    : 'Cada flor conta uma história';
+
+            visiveis.forEach((flor, indice) => {
+                const botao = document.createElement('button');
+
+                botao.type = 'button';
+
+                botao.className = 'flower ' +
+                    (
+                        flor.tipo === 'noivado'
+                            ? 'engagement'
+                            : ''
+                    );
+
+                botao.style.setProperty(
+                    '--delay',
+                    Math.min(indice * 35, 700) + 'ms'
+                );
+
+                const cores = flor.tipo === 'noivado'
+                    ? ['#f3b7dd', '#e8a1d0', '#d6a6ee']
+                    : ['#f7779a', '#ff9c9e', '#e75b80'];
+
+                botao.style.setProperty(
+                    '--petal',
+                    cores[indice % cores.length]
+                );
+
+                botao.setAttribute(
+                    'aria-label',
+                    `${
+                        flor.tipo === 'namoro'
+                            ? 'Flor de namoro'
+                            : 'Flor de noivado'
+                    } de ${formatar(flor.data)}`
+                );
+
+                const florVisual = document.createElement(
+                    'div'
+                );
+
+                florVisual.className = 'blossom';
+
+                for (let p = 0; p < 8; p++) {
+                    const petala = document.createElement(
+                        'span'
+                    );
+
+                    petala.className = 'petal';
+
+                    petala.style.setProperty(
+                        '--angle',
+                        (p * 45) + 'deg'
+                    );
+
+                    florVisual.appendChild(petala);
+                }
+
+                const centro = document.createElement('span');
+                centro.className = 'center';
+
+                florVisual.appendChild(centro);
+
+                const caule = document.createElement('div');
+                caule.className = 'stem';
+
+                const etiqueta = document.createElement(
+                    'span'
+                );
+
+                etiqueta.className = 'flower-label';
+
+                etiqueta.textContent =
+                    flor.data.toLocaleDateString(
+                        'pt-BR',
+                        {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric'
+                        }
+                    );
+
+                botao.append(
+                    florVisual,
+                    caule,
+                    etiqueta
+                );
+
+                botao.addEventListener('click', () => {
+                    abrirFlor(flor, indice);
+                });
+
+                garden.appendChild(botao);
+            });
+
+            if (!visiveis.length) {
+                const p = document.createElement('p');
+
+                p.textContent =
+                    'As próximas flores ainda vão desabrochar. 💗';
+
+                garden.appendChild(p);
+            }
+        }
+
+        /* =========================================
+           FILTROS
+        ========================================= */
+
+        document.querySelectorAll(
+            '[data-filter]'
+        ).forEach(botao => {
+            botao.addEventListener('click', () => {
+                document.querySelectorAll(
+                    '[data-filter]'
+                ).forEach(b => {
+                    b.classList.remove('active');
+                });
+
+                botao.classList.add('active');
+
+                renderizarFlores(
+                    botao.dataset.filter
+                );
+            });
+        });
+
+        /* =========================================
+           BORBOLETAS DAS LEMBRANÇAS
+        ========================================= */
+
+        /*
+         * PERSONALIZE AS MENSAGENS AQUI.
+         *
+         * Cada objeto representa uma borboleta.
+         * Você pode trocar o título, a mensagem
+         * e a cor sem alterar o restante do código.
+         *
+         * A data é a partir de quando ela aparece.
+         */
+
+        const lembrancas = [
+            {
+                data: new Date(2025, 10, 20),
+                titulo: 'O começo de nós dois',
+                mensagem:
+                    'Foi quando a nossa história começou a ganhar um significado ainda mais especial. Desde então, cada dia ao seu lado se tornou parte de algo que quero guardar para sempre.',
+                cor: '#f5a3cb'
+            },
+            {
+                data: new Date(2025, 11, 20),
+                titulo: 'Nosso primeiro mês',
+                mensagem:
+                    'Um mês pode parecer pouco para o mundo, mas para mim já significava muitas razões para sorrir. Obrigado por fazer parte dos meus dias.',
+                cor: '#d8a9f5'
+            },
+            {
+                data: new Date(2026, 0, 20),
+                titulo: 'Mais um capítulo',
+                mensagem:
+                    'A cada mês, descubro novas formas de admirar você. E percebo que amar também é escolher cuidar, compreender e permanecer.',
+                cor: '#ffc48e'
+            },
+            {
+                data: new Date(2026, 1, 20),
+                titulo: 'Você é meu lugar favorito',
+                mensagem:
+                    'Não importa onde estejamos. Existem momentos em que tudo o que preciso é estar perto de você para sentir que estou no lugar certo.',
+                cor: '#f48eac'
+            },
+            {
+                data: new Date(2026, 2, 20),
+                titulo: 'As pequenas coisas',
+                mensagem:
+                    'Eu amo os detalhes que talvez você nem perceba: seu jeito, seu sorriso, nossas conversas e a maneira como você faz meus dias diferentes.',
+                cor: '#a6c9f7'
+            },
+            {
+                data: new Date(2026, 3, 20),
+                titulo: 'Meu carinho por você',
+                mensagem:
+                    'Se algum dia as palavras faltarem, quero que você se lembre de que meu carinho continua presente até nos gestos mais simples.',
+                cor: '#c5b4f5'
+            },
+            {
+                data: new Date(2026, 4, 20),
+                titulo: 'Um amor que cresce',
+                mensagem:
+                    'Assim como as flores deste jardim, nosso amor cresce com o tempo. E eu quero continuar cultivando essa história com você.',
+                cor: '#f6b0a8'
+            },
+            {
+                data: new Date(2026, 5, 20),
+                titulo: 'Nossos sonhos',
+                mensagem:
+                    'Quando penso no futuro, gosto de imaginar as pequenas e grandes conquistas que ainda teremos a oportunidade de viver juntos.',
+                cor: '#f0c26f'
+            },
+            {
+                data: new Date(2026, 6, 20),
+                titulo: 'A beleza de estar com você',
+                mensagem:
+                    'Você tornou especiais muitos momentos que, antes, poderiam parecer comuns. Obrigado por dividir sua vida comigo.',
+                cor: '#e7a5dc'
+            },
+            {
+                data: new Date(2026, 7, 10),
+                titulo: 'O nosso noivado',
+                mensagem:
+                    'O nosso amor ganhou uma nova promessa: continuar escolhendo um ao outro e construir uma vida juntos. Que esse seja apenas o começo de tudo o que ainda vamos viver.',
+                cor: '#c49be9'
+            },
+            {
+                data: new Date(2026, 8, 20),
+                titulo: 'Cada vez mais perto',
+                mensagem:
+                    'O tempo passa, e cada novo dia nos aproxima de tantos sonhos. Entre todos eles, um dos maiores é compartilhar a vida com você.',
+                cor: '#f8a7c8'
+            },
+            {
+                data: new Date(2026, 9, 20),
+                titulo: 'Nossa história continua',
+                mensagem:
+                    'Existem tantas páginas da nossa história que ainda não escrevemos. Eu espero que elas sejam cheias de amor, respeito, companheirismo e boas lembranças.',
+                cor: '#a9d6ba'
+            },
+            {
+                data: new Date(2026, 10, 20),
+                titulo: 'Um ano de flores de namoro',
+                mensagem:
+                    'Há um ano, comecei a marcar o dia 20 com flores. Hoje, cada uma delas representa uma lembrança de tudo o que construímos. Eu te amo.',
+                cor: '#ffb0ca'
+            },
+            {
+                data: new Date(2027, 0, 20),
+                titulo: 'O nosso grande dia',
+                mensagem:
+                    'Hoje começa um novo capítulo da nossa história. Que nunca nos falte amor, paciência, carinho e vontade de continuar escolhendo um ao outro. Feliz dia do nosso casamento!',
+                cor: '#e5b7f5'
+            }
+        ];
+
+        /*
+         * Depois das lembranças cadastradas,
+         * o site pode criar borboletas mensais
+         * com mensagens genéricas.
+         *
+         * Assim, o jardim continua crescendo
+         * sem precisar editar o código.
+         */
+
+        const mensagensMensais = [
+            'Mais um mês da nossa história. Que nunca nos faltem motivos para sorrir juntos.',
+            'O tempo passa, mas meu desejo de cuidar do nosso amor continua crescendo.',
+            'Cada novo mês é mais uma oportunidade de construir boas lembranças com você.',
+            'Entre tantas possibilidades da vida, continuo feliz por compartilhar a minha com você.',
+            'Que nosso amor continue florescendo, mesmo nos dias em que a vida parecer mais difícil.'
+        ];
+
+        function obterLembrancasDisponiveis() {
+            const hoje = obterHoje();
+
+            const disponiveis = lembrancas
+                .filter(item => item.data <= hoje)
+                .map(item => ({ ...item }));
+
+            /*
+             * Borboletas mensais automáticas:
+             * uma por dia 20, a partir de
+             * fevereiro de 2027.
+             *
+             * Antes disso, utilizamos as
+             * lembranças personalizadas acima.
+             */
+
+            const inicioAutomatico = new Date(2027, 1, 20);
+
+            let indice = 0;
+
+            for (
+                let ano = inicioAutomatico.getFullYear();
+                ano <= hoje.getFullYear();
+                ano++
+            ) {
+                for (let mes = 0; mes < 12; mes++) {
+                    const data = new Date(ano, mes, 20);
+
+                    if (
+                        data < inicioAutomatico ||
+                        data > hoje
+                    ) {
+                        continue;
+                    }
+
+                    disponiveis.push({
+                        data,
+                        titulo: 'Mais um mês de amor',
+                        mensagem:
+                            mensagensMensais[
+                                indice % mensagensMensais.length
+                            ],
+                        cor: [
+                            '#f5a3cb',
+                            '#d8a9f5',
+                            '#ffc48e',
+                            '#a6c9f7'
+                        ][indice % 4]
+                    });
+
+                    indice++;
+                }
+            }
+
+            disponiveis.sort((a, b) =>
+                a.data - b.data
+            );
+
+            return disponiveis;
+        }
+
+        /* =========================================
+           CRIAR BORBOLETA VISUAL
+        ========================================= */
+
+        function criarBorboleta(lembranca, indice) {
+            const botao = document.createElement('button');
+
+            botao.type = 'button';
+            botao.className = 'butterfly';
+
+            /*
+             * Distribuição determinística:
+             * evita mudar as posições a cada
+             * atualização da página.
+             */
+
+            const coluna = indice % 5;
+            const linha = Math.floor(indice / 5);
+
+            const x = 8 + coluna * 18;
+            const y = 20 + (linha % 3) * 19;
+
+            botao.style.setProperty('--x', x + '%');
+            botao.style.setProperty('--y', y + '%');
+
+            botao.style.setProperty(
+                '--wing-color',
+                lembranca.cor
+            );
+
+            botao.style.setProperty(
+                '--duration',
+                (4 + (indice % 4)) + 's'
+            );
+
+            botao.style.setProperty(
+                '--delay',
+                (-indice * .7) + 's'
+            );
+
+            botao.style.setProperty(
+                '--move-x',
+                ((indice % 2 === 0 ? 1 : -1) *
+                    (12 + (indice % 3) * 5)) + 'px'
+            );
+
+            botao.setAttribute(
+                'aria-label',
+                `Borboleta: ${lembranca.titulo}`
+            );
+
+            botao.title = lembranca.titulo;
+
+            const corpo = document.createElement('span');
+            corpo.className = 'butterfly-body';
+
+            const asaEsquerda = document.createElement('span');
+            asaEsquerda.className = 'wing left';
+
+            const asaDireita = document.createElement('span');
+            asaDireita.className = 'wing right';
+
+            const centro = document.createElement('span');
+            centro.className = 'butterfly-center';
+
+            corpo.append(
+                asaEsquerda,
+                asaDireita,
+                centro
+            );
+
+            botao.appendChild(corpo);
+
+            botao.addEventListener('click', () => {
+                abrirModal(
+                    '🦋',
+                    lembranca.titulo,
+                    lembranca.mensagem
+                );
+            });
+
+            return botao;
+        }
+
+        /* =========================================
+           RENDERIZAR BORBOLETAS
+        ========================================= */
+
+        function renderizarBorboletas() {
+            butterflyLayer.replaceChildren();
+
+            const disponiveis =
+                obterLembrancasDisponiveis();
+
+            document.getElementById(
+                'totalBorboletas'
+            ).textContent = disponiveis.length;
+
+            disponiveis.forEach((lembranca, indice) => {
+                butterflyLayer.appendChild(
+                    criarBorboleta(lembranca, indice)
+                );
+            });
+        }
+
+        /* =========================================
+           ATUALIZAÇÃO AUTOMÁTICA
+        ========================================= */
+
+        function verificarNovasLembrancas() {
+            const hoje = obterHoje();
+            const dataAtual = chaveData(hoje);
+
+            if (dataAtual !== ultimaDataAtualizada) {
+                gerarFloresAutomaticamente();
+            }
+        }
+
+        // Verifica a mudança de dia.
+        setInterval(
+            verificarNovasLembrancas,
+            30000
+        );
+
+        // Atualiza quando ela volta à aba.
+        document.addEventListener(
+            'visibilitychange',
+            () => {
+                if (!document.hidden) {
+                    verificarNovasLembrancas();
+                }
+            }
+        );
+
+        window.addEventListener(
+            'focus',
+            verificarNovasLembrancas
+        );
+
+        /* =========================================
+           INICIALIZAÇÃO
+        ========================================= */
+
+        gerarFloresAutomaticamente();
+
+    </script>
+
+</body>
+</html>
+
+
